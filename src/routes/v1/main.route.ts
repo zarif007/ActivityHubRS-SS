@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { getHome } from '../../controllers/main.controller';
+import {getHome} from '../../controllers/main.controller';
 
 
 import StudentRoute from './student.route';
@@ -13,6 +13,7 @@ import StudentRoute from './student.route';
 router.get('/', getHome);
 
 
+
 /*   
     @route      GET /api/v1/{route}
     @detail     This is every router hitpoint for the API version 1
@@ -21,4 +22,4 @@ router.use('/student', StudentRoute);
 
 
 
-export default():express.Router => router;
+export default router;

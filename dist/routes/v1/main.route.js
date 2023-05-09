@@ -17,4 +17,4 @@ router.get('/', main_controller_1.getHome);
     @detail     This is every router hitpoint for the API version 1
 */
 router.use('/student', student_route_1.default);
-exports.default = () => router;
+exports.default = router;

@@ -34,7 +34,7 @@ const StudentSchema = new mongoose.Schema({
     },
     phoneNumber: {
         type: String,
-        required: [true, "phone no is required"],
+        // required: [true, "phone no is required"],
     },
     bngSection: {
         type: String,

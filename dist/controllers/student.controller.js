@@ -28,7 +28,9 @@ const getStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 });
 const getStudentsByEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const student = yield (0, student_services_1.getStudentsByEmailService)(req.body);
+        const { email } = req.body;
+        console.log(email);
+        const student = yield (0, student_services_1.getStudentsByEmailService)(email);
         res.status(200).json({
             success: true,
             data: student,
@@ -42,7 +44,25 @@ const getStudentsByEmail = (req, res, next) => __awaiter(void 0, void 0, void 0,
         });
     }
 });
+const addStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const students = req.body;
+        const result = yield (0, student_services_1.addStudentsService)(students);
+        res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in getting student"
+        });
+    }
+});
 exports.default = {
     getStudents,
-    getStudentsByEmail
+    getStudentsByEmail,
+    addStudents
 };

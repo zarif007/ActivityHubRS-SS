@@ -1,3 +1,4 @@
+import { ArrayElement } from "mongodb";
 import { StudentModel } from "../models/student.model";
 
 
@@ -15,8 +16,15 @@ const getStudentsByStudentIdService = async (studentId:String) => {
     return student;
 }
 
+const addStudentsService = async (students:JSON) => {
+    const result = await StudentModel.insertMany(students);
+    return result;
+}
+
+
 export  {
     getStudentsService,
     getStudentsByEmailService,
-    getStudentsByStudentIdService
+    getStudentsByStudentIdService,
+    addStudentsService
 }

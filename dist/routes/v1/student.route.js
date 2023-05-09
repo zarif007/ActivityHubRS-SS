@@ -7,7 +7,8 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const student_controller_1 = __importDefault(require("../../controllers/student.controller"));
 router.route('/')
-    .get(student_controller_1.default.getStudents);
+    .get(student_controller_1.default.getStudents)
+    .post(student_controller_1.default.addStudents);
 router.route('/email')
     .get(student_controller_1.default.getStudentsByEmail);
-exports.default = () => router;
+exports.default = router;

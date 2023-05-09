@@ -9,9 +9,10 @@ import studentController from '../../controllers/student.controller';
 
 router.route('/')
 .get(studentController.getStudents)
+.post(studentController.addStudents)
 
 router.route('/email')
 .get(studentController.getStudentsByEmail)
 
 
-export default():express.Router => router;
+export default router;
