@@ -31,8 +31,8 @@ dotenv.config();
 const app_1 = __importDefault(require("./app"));
 const PORT = process.env.PORT || 5000;
 // Database connection
-const dConnect_1 = require("./utils/dConnect");
-(0, dConnect_1.connectToDatabase)();
+const { connectToDatabase } = require('./utils/dConnect');
+connectToDatabase();
 // Server Startter
 app_1.default.listen(PORT, () => {
     console.log(`Server started @ port ${PORT}`);
