@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const StudentSchema = new mongoose.Schema({
-    studentId: {
+const ActivitySchema = new mongoose.Schema({
+    activityName: {
         type: String,
         required: [true, "Student id is required"],
         trim: true,
@@ -22,7 +22,7 @@ const StudentSchema = new mongoose.Schema({
     gender: {
         type: String,
     },
-    department: {
+    depertment: {
         type: String,
     },
     roomNumber: {
@@ -50,5 +50,5 @@ const StudentSchema = new mongoose.Schema({
 });
 
 
-export const StudentModel =  mongoose.model("Student", StudentSchema);
+export const ActivityModel =  mongoose.model("Student", ActivitySchema);
 
