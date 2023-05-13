@@ -1,6 +1,11 @@
-import mongoose from "mongoose";
-
-const ActivitySchema = new mongoose.Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ActivityModel = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
+const ActivitySchema = new mongoose_1.default.Schema({
     name: {
         type: String,
         required: [true, "Activity name is required"],
@@ -34,7 +39,4 @@ const ActivitySchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-
-
-export const ActivityModel =  mongoose.model("Activity", ActivitySchema);
-
+exports.ActivityModel = mongoose_1.default.model("Activity", ActivitySchema);

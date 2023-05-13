@@ -1,6 +1,11 @@
-import mongoose from "mongoose";
-
-const InstructorSchema = new mongoose.Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.InstructorModel = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
+const InstructorSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
         required: [true, "Instructor's name is required"],
@@ -14,7 +19,7 @@ const InstructorSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-    }, 
+    },
     details: {
         type: String,
         minlength: [10, "Must be at least 10 characters long"],
@@ -23,7 +28,4 @@ const InstructorSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-
-
-export const InstructorModel =  mongoose.model("Instructor", InstructorSchema);
-
+exports.InstructorModel = mongoose_1.default.model("Instructor", InstructorSchema);

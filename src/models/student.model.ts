@@ -7,7 +7,7 @@ const StudentSchema = new mongoose.Schema({
         trim: true,
         unique: true,
         maxlength: [8, "Student ID must be 8 characters long"],
-        minlenght: [8, "Student ID must be 8 characters long"]
+        minlength: [8, "Student ID must be 8 characters long"]
     },
     name: {
         type: String,
