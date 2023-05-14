@@ -29,7 +29,6 @@ const getStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 const getStudentsByEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email } = req.body;
-        console.log(email);
         const student = yield (0, student_services_1.getStudentsByEmailService)(email);
         res.status(200).json({
             success: true,
