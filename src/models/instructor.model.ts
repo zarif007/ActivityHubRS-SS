@@ -18,7 +18,7 @@ const InstructorSchema = new mongoose.Schema({
     details: {
         type: String,
         minlength: [10, "Must be at least 10 characters long"],
-        maxlength: [60, "Can be at max 60 characters long"],
+        maxlength: [300, "Can be at max 300 characters long"],
     }
 }, {
     timestamps: true

@@ -19,7 +19,7 @@ const ActivitySchema = new mongoose_1.default.Schema({
         type: String,
         required: [true, "Description is required"],
         minlength: [10, "Must be at least 10 characters long"],
-        maxlength: [60, "Can be at max 60 characters long"],
+        maxlength: [500, "Can be at max 500 characters long"],
     },
     day: {
         type: String,
@@ -37,6 +37,6 @@ const ActivitySchema = new mongoose_1.default.Schema({
         type: String,
     },
 }, {
-    timestamps: true
+    timestamps: true,
 });
 exports.ActivityModel = mongoose_1.default.model("Activity", ActivitySchema);

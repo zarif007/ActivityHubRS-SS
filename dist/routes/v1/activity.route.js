@@ -5,10 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
-const student_controller_1 = __importDefault(require("../../controllers/student.controller"));
+const activity_controller_1 = __importDefault(require("../../controllers/activity.controller"));
 router
     .route("/")
-    .get(student_controller_1.default.getStudents)
-    .post(student_controller_1.default.addStudents);
-router.route("/email").get(student_controller_1.default.getStudentsByEmail);
+    .get(activity_controller_1.default.getActivities)
+    .post(activity_controller_1.default.addActivity);
+router.route("/id").get(activity_controller_1.default.getActivityById);
+router.route("/insertmany").post(activity_controller_1.default.addActivities);
 exports.default = router;

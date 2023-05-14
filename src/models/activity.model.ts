@@ -1,40 +1,41 @@
 import mongoose from "mongoose";
 
-const ActivitySchema = new mongoose.Schema({
+const ActivitySchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: [true, "Activity name is required"],
-        trim: true,
+      type: String,
+      required: [true, "Activity name is required"],
+      trim: true,
     },
     image: {
-        type: String,
-        required: [true, "Image is required"],
+      type: String,
+      required: [true, "Image is required"],
     },
     description: {
-        type: String,
-        required: [true, "Description is required"],
-        minlength: [10, "Must be at least 10 characters long"],
-        maxlength: [60, "Can be at max 60 characters long"],
+      type: String,
+      required: [true, "Description is required"],
+      minlength: [10, "Must be at least 10 characters long"],
+      maxlength: [500, "Can be at max 500 characters long"],
     },
     day: {
-        type: String,
+      type: String,
     },
     classTime: {
-        type: String,
+      type: String,
     },
     venue: {
-        type: String,
+      type: String,
     },
     ds: {
-        type: String,
+      type: String,
     },
     instructor: {
-        type: String,
+      type: String,
     },
-}, {
-    timestamps: true
-});
+  },
+  {
+    timestamps: true,
+  }
+);
 
-
-export const ActivityModel =  mongoose.model("Activity", ActivitySchema);
-
+export const ActivityModel = mongoose.model("Activity", ActivitySchema);

@@ -9,30 +9,48 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const student_services_1 = require("../services/student.services");
-const getStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const activity_service_1 = require("../services/activity.service");
+const getActivities = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const students = yield (0, student_services_1.getStudentsService)();
+        const activities = yield (0, activity_service_1.getActivitiesService)();
         res.status(200).json({
             success: true,
-            data: students,
+            data: activities,
         });
     }
     catch (err) {
         res.status(400).json({
             success: false,
             err: err.message,
-            message: "Error in getting students",
+            message: "Error in getting activities",
         });
     }
 });
-const getStudentsByEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getActivityById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
     try {
-        const { email } = req.body;
-        const student = yield (0, student_services_1.getStudentsByEmailService)(email);
+        const activity = yield (0, activity_service_1.getActivityByIdService)(id);
         res.status(200).json({
             success: true,
-            data: student,
+            data: activity,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in getting activity",
+        });
+    }
+});
+// Single activity insertion
+const addActivity = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const activity = req.body;
+        const result = yield (0, activity_service_1.addActivityService)(activity);
+        res.status(200).json({
+            success: true,
+            data: result,
         });
     }
     catch (err) {
@@ -43,10 +61,11 @@ const getStudentsByEmail = (req, res, next) => __awaiter(void 0, void 0, void 0,
         });
     }
 });
-const addStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// Multiple activity insertion
+const addActivities = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const students = req.body;
-        const result = yield (0, student_services_1.addStudentsService)(students);
+        const activities = req.body;
+        const result = yield (0, activity_service_1.addActivityService)(activities);
         res.status(200).json({
             success: true,
             data: result,
@@ -61,7 +80,8 @@ const addStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.default = {
-    getStudents,
-    getStudentsByEmail,
-    addStudents,
+    getActivities,
+    getActivityById,
+    addActivity,
+    addActivities,
 };
