@@ -23,7 +23,6 @@ const getActivityByIdService = (id) => __awaiter(void 0, void 0, void 0, functio
 exports.getActivityByIdService = getActivityByIdService;
 // Single activity insertion
 const addActivityService = (activity) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(activity);
     const result = yield activity_model_1.ActivityModel.create(activity);
     return result;
 });

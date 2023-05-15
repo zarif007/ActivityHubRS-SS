@@ -3,16 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ActivityModel = void 0;
+exports.RegistrationModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const RegistrationSchema = new mongoose_1.default.Schema({
-    studentEmail: {
-        type: String,
+    studentId: {
+        type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Student',
         required: [true, "Student's email is required"],
         trim: true,
     },
     activityId: {
-        type: String,
+        type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Activity',
         required: [true, "Activity is required"],
         trim: true,
     },
@@ -23,4 +23,4 @@ const RegistrationSchema = new mongoose_1.default.Schema({
 }, {
     timestamps: true
 });
-exports.ActivityModel = mongoose_1.default.model("Registration", RegistrationSchema);
+exports.RegistrationModel = mongoose_1.default.model("Registration", RegistrationSchema);

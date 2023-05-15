@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ActivityStateSchema = new mongoose.Schema({
     activityId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId, ref: 'Activity',
         required: [true, "Activity id is required"],
         trim: true,
     },
@@ -27,5 +27,5 @@ const ActivityStateSchema = new mongoose.Schema({
 });
 
 
-export const ActivityModel =  mongoose.model("ActivityState", ActivityStateSchema);
+export const ActivityStateModel =  mongoose.model("ActivityState", ActivityStateSchema);
 

@@ -21,9 +21,7 @@ const ActivitySchema = new mongoose.Schema(
     },
     level: {
       type: String,
-      default: "Beginner",
-      // required: [true, "Level is required"],
-      
+      default: "Beginner",      
     },
     price: {
       type: Number,

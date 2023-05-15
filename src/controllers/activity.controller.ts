@@ -1,4 +1,4 @@
-import { convertToObjectId } from './../utils/utility';
+import { convertToObjectId } from "./../utils/utility";
 import { Request, Response, NextFunction } from "express";
 import {
   addActivityService,
@@ -48,10 +48,9 @@ const getActivityById = async (
   }
 };
 
-
 const addActivity = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {activity} = req.body;
+    const { activity } = req.body;
     const result = await addActivityService(activity);
     res.status(200).json({
       success: true,
@@ -65,8 +64,6 @@ const addActivity = async (req: Request, res: Response, next: NextFunction) => {
     });
   }
 };
-
-
 
 export default {
   getActivities,

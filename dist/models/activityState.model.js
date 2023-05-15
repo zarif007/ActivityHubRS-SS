@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ActivityModel = void 0;
+exports.ActivityStateModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const ActivityStateSchema = new mongoose_1.default.Schema({
     activityId: {
-        type: String,
+        type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Activity',
         required: [true, "Activity id is required"],
         trim: true,
     },
@@ -30,4 +30,4 @@ const ActivityStateSchema = new mongoose_1.default.Schema({
 }, {
     timestamps: true
 });
-exports.ActivityModel = mongoose_1.default.model("ActivityState", ActivityStateSchema);
+exports.ActivityStateModel = mongoose_1.default.model("ActivityState", ActivityStateSchema);

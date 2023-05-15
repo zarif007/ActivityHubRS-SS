@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
 const RegistrationSchema = new mongoose.Schema({
-    studentEmail: {
-        type: String,
+    studentId: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'Student',
         required: [true, "Student's email is required"],
         trim: true,
     },
     activityId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId, ref: 'Activity',
         required: [true, "Activity is required"],
         trim: true,
     },
@@ -20,5 +20,5 @@ const RegistrationSchema = new mongoose.Schema({
 });
 
 
-export const ActivityModel =  mongoose.model("Registration", RegistrationSchema);
+export const RegistrationModel =  mongoose.model("Registration", RegistrationSchema);
 
