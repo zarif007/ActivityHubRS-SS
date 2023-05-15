@@ -1,3 +1,4 @@
+import { convertToObjectId } from './../utils/utility';
 import { Request, Response, NextFunction } from "express";
 import {
   addActivityService,
@@ -11,7 +12,8 @@ const getActivities = async (
   next: NextFunction
 ) => {
   try {
-    const activities = await getActivitiesService();
+    const query = req.query;
+    const activities = await getActivitiesService(query);
     res.status(200).json({
       success: true,
       data: activities,
@@ -30,7 +32,7 @@ const getActivityById = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
     const activity = await getActivityByIdService(id);
     res.status(200).json({
@@ -46,10 +48,10 @@ const getActivityById = async (
   }
 };
 
-// Single activity insertion
+
 const addActivity = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const activity = req.body;
+    const {activity} = req.body;
     const result = await addActivityService(activity);
     res.status(200).json({
       success: true,
@@ -59,36 +61,15 @@ const addActivity = async (req: Request, res: Response, next: NextFunction) => {
     res.status(400).json({
       success: false,
       err: err.message,
-      message: "Error in getting student",
+      message: "Error in Adding activity",
     });
   }
 };
 
-// Multiple activity insertion
-const addActivities = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const activities = req.body;
-    const result = await addActivityService(activities);
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      err: err.message,
-      message: "Error in getting student",
-    });
-  }
-};
+
 
 export default {
   getActivities,
   getActivityById,
   addActivity,
-  addActivities,
 };

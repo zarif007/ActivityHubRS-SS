@@ -10,6 +10,6 @@ router
     .route("/")
     .get(activity_controller_1.default.getActivities)
     .post(activity_controller_1.default.addActivity);
-router.route("/id").get(activity_controller_1.default.getActivityById);
-router.route("/insertmany").post(activity_controller_1.default.addActivities);
+router
+    .route("/:id").get(activity_controller_1.default.getActivityById);
 exports.default = router;

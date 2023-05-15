@@ -9,8 +9,8 @@ router
   .get(ActivityController.getActivities)
   .post(ActivityController.addActivity);
 
-router.route("/id").get(ActivityController.getActivityById);
+router
+  .route("/:id").get(ActivityController.getActivityById);
 
-router.route("/insertmany").post(ActivityController.addActivities);
 
 export default router;

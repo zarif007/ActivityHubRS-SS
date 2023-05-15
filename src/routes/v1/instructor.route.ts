@@ -8,11 +8,13 @@ const router = express.Router();
 
 
 router.route('/')
-.get(instructorController.getInstructor)
-.post(instructorController.addInstructor)
+    .get(instructorController.getInstructor)
+    .post(instructorController.addInstructor)
 
 router.route('/:id')
-.get(instructorController.getInstructorById)
+    .get(instructorController.getInstructorById)
+    .put(instructorController.updateInstructor)
+
 
 
 export default router;

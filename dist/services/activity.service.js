@@ -9,27 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addActivitiesService = exports.addActivityService = exports.getActivityByIdService = exports.getActivitiesService = void 0;
+exports.addActivityService = exports.getActivityByIdService = exports.getActivitiesService = void 0;
 const activity_model_1 = require("../models/activity.model");
-const getActivitiesService = () => __awaiter(void 0, void 0, void 0, function* () {
-    const activities = yield activity_model_1.ActivityModel.find({});
+const getActivitiesService = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const activities = yield activity_model_1.ActivityModel.find(query).populate("instructor");
     return activities;
 });
 exports.getActivitiesService = getActivitiesService;
 const getActivityByIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const activity = yield activity_model_1.ActivityModel.findById(id);
+    const activity = yield activity_model_1.ActivityModel.findById(id).populate("instructor");
     return activity;
 });
 exports.getActivityByIdService = getActivityByIdService;
 // Single activity insertion
 const addActivityService = (activity) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(activity);
     const result = yield activity_model_1.ActivityModel.create(activity);
     return result;
 });
 exports.addActivityService = addActivityService;
-// Multiple activity insertion
-const addActivitiesService = (activities) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield activity_model_1.ActivityModel.insertMany(activities);
-    return result;
-});
-exports.addActivitiesService = addActivitiesService;

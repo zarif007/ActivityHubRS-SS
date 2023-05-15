@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const activity_service_1 = require("../services/activity.service");
 const getActivities = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const activities = yield (0, activity_service_1.getActivitiesService)();
+        const query = req.query;
+        const activities = yield (0, activity_service_1.getActivitiesService)(query);
         res.status(200).json({
             success: true,
             data: activities,
@@ -27,7 +28,7 @@ const getActivities = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 const getActivityById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.body;
+    const { id } = req.params;
     try {
         const activity = yield (0, activity_service_1.getActivityByIdService)(id);
         res.status(200).json({
@@ -43,10 +44,9 @@ const getActivityById = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         });
     }
 });
-// Single activity insertion
 const addActivity = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const activity = req.body;
+        const { activity } = req.body;
         const result = yield (0, activity_service_1.addActivityService)(activity);
         res.status(200).json({
             success: true,
@@ -57,25 +57,7 @@ const addActivity = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         res.status(400).json({
             success: false,
             err: err.message,
-            message: "Error in getting student",
-        });
-    }
-});
-// Multiple activity insertion
-const addActivities = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const activities = req.body;
-        const result = yield (0, activity_service_1.addActivityService)(activities);
-        res.status(200).json({
-            success: true,
-            data: result,
-        });
-    }
-    catch (err) {
-        res.status(400).json({
-            success: false,
-            err: err.message,
-            message: "Error in getting student",
+            message: "Error in Adding activity",
         });
     }
 });
@@ -83,5 +65,4 @@ exports.default = {
     getActivities,
     getActivityById,
     addActivity,
-    addActivities,
 };

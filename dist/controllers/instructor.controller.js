@@ -13,7 +13,8 @@ const instructor_services_1 = require("../services/instructor.services");
 const utility_1 = require("../utils/utility");
 const getInstructor = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const instructor = yield (0, instructor_services_1.getInstructorService)();
+        const query = req.query;
+        const instructor = yield (0, instructor_services_1.getInstructorService)(query);
         res.status(200).json({
             success: true,
             data: instructor
@@ -31,7 +32,7 @@ const getInstructor = (req, res, next) => __awaiter(void 0, void 0, void 0, func
 const getInstructorById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const instructor = yield (0, instructor_services_1.getInstructorByIdService)((0, utility_1.convertToObjectId)(id));
+        const instructor = yield (0, instructor_services_1.getInstructorByIdService)(id);
         res.status(200).json({
             success: true,
             data: instructor,
@@ -62,8 +63,27 @@ const addInstructor = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         });
     }
 });
+const updateInstructor = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const { instructor } = req.body;
+        const result = yield (0, instructor_services_1.updateInstructorService)((0, utility_1.convertToObjectId)(id), instructor);
+        res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in Updating new instructor"
+        });
+    }
+});
 exports.default = {
     getInstructor,
     getInstructorById,
-    addInstructor
+    addInstructor,
+    updateInstructor,
 };

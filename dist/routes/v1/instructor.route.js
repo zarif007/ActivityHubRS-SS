@@ -10,5 +10,6 @@ router.route('/')
     .get(instructor_controller_1.default.getInstructor)
     .post(instructor_controller_1.default.addInstructor);
 router.route('/:id')
-    .get(instructor_controller_1.default.getInstructorById);
+    .get(instructor_controller_1.default.getInstructorById)
+    .put(instructor_controller_1.default.updateInstructor);
 exports.default = router;
