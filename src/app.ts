@@ -22,6 +22,7 @@ app.use(cors());
 // app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '200mb'}));
 // app.use(express.urlencoded({limit: '200mb', extended: true}));
+app.set('json spaces', 2)
 
 
 

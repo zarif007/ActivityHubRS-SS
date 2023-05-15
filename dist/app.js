@@ -19,6 +19,7 @@ app.use(cors());
 // app.use(bodyParser.json());
 app.use(body_parser_1.default.json({ limit: '200mb' }));
 // app.use(express.urlencoded({limit: '200mb', extended: true}));
+app.set('json spaces', 2);
 // main endpoints
 app.use("/api/v1", viewCount_1.default, main_route_1.default);
 app.all("*", (req, res) => {

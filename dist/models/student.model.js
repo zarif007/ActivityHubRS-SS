@@ -12,7 +12,7 @@ const StudentSchema = new mongoose_1.default.Schema({
         trim: true,
         unique: true,
         maxlength: [8, "Student ID must be 8 characters long"],
-        minLenght: [8, "Student ID must be 8 characters long"]
+        minlength: [8, "Student ID must be 8 characters long"]
     },
     name: {
         type: String,
@@ -27,7 +27,7 @@ const StudentSchema = new mongoose_1.default.Schema({
     gender: {
         type: String,
     },
-    depertment: {
+    department: {
         type: String,
     },
     roomNumber: {
