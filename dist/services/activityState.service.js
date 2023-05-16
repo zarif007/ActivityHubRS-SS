@@ -28,10 +28,8 @@ const addActivityStateService = (activityState) => __awaiter(void 0, void 0, voi
     return result;
 });
 exports.addActivityStateService = addActivityStateService;
-const updateActivityStateService = (id, UpdateState) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield activityState_model_1.ActivityStateModel.findByIdAndUpdate(id, UpdateState, {
-        rawResult: true,
-    });
+const updateActivityStateService = (id, updateState) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield activityState_model_1.ActivityStateModel.findOneAndUpdate({ activityId: id }, updateState, { new: true });
     return result;
 });
 exports.updateActivityStateService = updateActivityStateService;

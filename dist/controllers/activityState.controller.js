@@ -64,8 +64,8 @@ const addActivityState = (req, res, next) => __awaiter(void 0, void 0, void 0, f
 const updateActivityState = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const activityState = req.body;
-        const result = yield (0, activityState_service_1.addActivityStateService)(activityState);
+        const updatedActivityState = req.body;
+        const result = yield (0, activityState_service_1.updateActivityStateService)(id, updatedActivityState);
         res.status(200).json({
             success: true,
             data: result,
@@ -75,7 +75,7 @@ const updateActivityState = (req, res, next) => __awaiter(void 0, void 0, void 0
         res.status(400).json({
             success: false,
             err: err.message,
-            message: "Error in Adding activity state",
+            message: "Error in Updating activity state",
         });
     }
 });

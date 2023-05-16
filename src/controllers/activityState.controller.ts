@@ -4,6 +4,7 @@ import {
   addActivityStateService,
   getActivityStateByActivityIdService,
   getActivityStateService,
+  updateActivityStateService,
 } from "../services/activityState.service";
 
 const getActivityState = async (
@@ -75,8 +76,8 @@ const updateActivityState = async (
 ) => {
   try {
     const { id } = req.params;
-    const activityState = req.body;
-    const result = await addActivityStateService(activityState);
+    const updatedActivityState = req.body;
+    const result = await updateActivityStateService(id,updatedActivityState);
     res.status(200).json({
       success: true,
       data: result,
@@ -85,10 +86,12 @@ const updateActivityState = async (
     res.status(400).json({
       success: false,
       err: err.message,
-      message: "Error in Adding activity state",
+      message: "Error in Updating activity state",
     });
   }
 };
+
+
 
 export default {
   getActivityState,

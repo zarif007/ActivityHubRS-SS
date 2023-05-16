@@ -7,6 +7,7 @@ const ActivityRegistrationSchema = new mongoose.Schema(
       ref: "Student",
       required: [true, "Student's id is required"],
       trim: true,
+      unique: true,
     },
     activityId: {
       type: mongoose.Schema.Types.ObjectId,

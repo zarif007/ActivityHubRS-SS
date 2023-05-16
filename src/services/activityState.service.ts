@@ -20,16 +20,32 @@ const addActivityStateService = async (activityState: any) => {
   return result;
 };
 
-const updateActivityStateService = async (id: string, UpdateState: any) => {
-  const result = await ActivityStateModel.findByIdAndUpdate(id, UpdateState, {
-    rawResult: true,
-  });
+const updateActivityStateService = async (id: string, updateState: any) => {
+  const result = await ActivityStateModel.findOneAndUpdate({activityId:id}, updateState,{new:true}); 
   return result;
 };
+
+// const bookSeatActivityStateService = async (id: string) => {
+//   const updateState = { $inc: { bookedSeat: 1 } }
+//   const { totalSeat} = await getActivityStateByActivityIdService(id);
+//   console.log(totalSeat);
+//   const filter = {activityId:id,bookedSeat:{ $gt:  totalSeat} }
+//   const result = await ActivityStateModel.findOneAndUpdate(filter, updateState,{new:true});
+//   return result;
+// };
+// const unbookSeatActivityStateService = async (id: string) => {
+//   const updateState = { $inc: { bookedSeat: 1 } }
+//   const filter = {activityId:id, bookedSeat:{$gt:ActivityStateModel.totalSeat }}
+//   const result = await ActivityStateModel.findOneAndUpdate(filter, updateState,{new:true});
+//   return result;
+// };
+
 
 export {
   getActivityStateService,
   getActivityStateByActivityIdService,
   addActivityStateService,
   updateActivityStateService,
+  // bookSeatActivityStateService,
+  // unbookSeatActivityStateService 
 };
