@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import {
   addActivityStateService,
+  checkActivityStateStatusService,
   getActivityStateByActivityIdService,
   getActivityStateService,
   updateActivityStateByActivityIdService,
@@ -91,11 +92,27 @@ const updateActivityState = async (
   }
 };
 
-
+const checkActivityStatus = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    
+    const result = await checkActivityStateStatusService(req.query);
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in Adding activity",
+    });
+  }
+};
 
 export default {
   getActivityState,
   getActivityStateByActivityId,
   addActivityState,
   updateActivityState,
+  checkActivityStatus
 };

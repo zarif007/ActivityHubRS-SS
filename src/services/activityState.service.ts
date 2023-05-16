@@ -32,12 +32,16 @@ const bookSeatByActivityStateIdService = async (id: string) => {
   return result;
 };
 
-// const unbookSeatActivityStateService = async (id: string) => {
-//   const updateState = { $inc: { bookedSeat: 1 } }
-//   const filter = {activityId:id, bookedSeat:{$gt:ActivityStateModel.totalSeat }}
-//   const result = await ActivityStateModel.findOneAndUpdate(filter, updateState,{new:true});
-//   return result;
-// };
+const checkActivityStateStatusService = async (query: object) => {
+  const selection = { activityId: 1, bookedSeat: 1, totalSeat: 1 };
+  const result = await ActivityStateModel.find(query)
+  .select(selection)
+  .populate("activityId",{name:1});
+  
+  return result;
+
+};
+
 
 
 export {
@@ -46,5 +50,6 @@ export {
   addActivityStateService,
   updateActivityStateByActivityIdService,
   bookSeatByActivityStateIdService,
-  // unbookSeatActivityStateService 
+  // unbookSeatActivityStateService,
+  checkActivityStateStatusService
 };

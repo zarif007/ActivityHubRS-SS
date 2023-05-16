@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookSeatByActivityStateIdService = exports.updateActivityStateByActivityIdService = exports.addActivityStateService = exports.getActivityStateByActivityIdService = exports.getActivityStateService = void 0;
+exports.checkActivityStateStatusService = exports.bookSeatByActivityStateIdService = exports.updateActivityStateByActivityIdService = exports.addActivityStateService = exports.getActivityStateByActivityIdService = exports.getActivityStateService = void 0;
 const activityState_model_1 = require("../models/activityState.model");
 const getActivityStateService = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const activities = yield activityState_model_1.ActivityStateModel.find(query).populate("activityId");
@@ -39,3 +39,11 @@ const bookSeatByActivityStateIdService = (id) => __awaiter(void 0, void 0, void 
     return result;
 });
 exports.bookSeatByActivityStateIdService = bookSeatByActivityStateIdService;
+const checkActivityStateStatusService = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const selection = { activityId: 1, bookedSeat: 1, totalSeat: 1 };
+    const result = yield activityState_model_1.ActivityStateModel.find(query)
+        .select(selection)
+        .populate("activityId", { name: 1 });
+    return result;
+});
+exports.checkActivityStateStatusService = checkActivityStateStatusService;

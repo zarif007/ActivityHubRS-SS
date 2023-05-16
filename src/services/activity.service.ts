@@ -16,4 +16,6 @@ const addActivityService = async (activity: Object) => {
   return result;
 };
 
+
+
 export { getActivitiesService, getActivityByIdService, addActivityService };

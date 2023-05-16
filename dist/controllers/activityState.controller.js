@@ -79,9 +79,26 @@ const updateActivityState = (req, res, next) => __awaiter(void 0, void 0, void 0
         });
     }
 });
+const checkActivityStatus = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, activityState_service_1.checkActivityStateStatusService)(req.query);
+        res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in Adding activity",
+        });
+    }
+});
 exports.default = {
     getActivityState,
     getActivityStateByActivityId,
     addActivityState,
     updateActivityState,
+    checkActivityStatus
 };
