@@ -4,7 +4,7 @@ import {
   addActivityStateService,
   getActivityStateByActivityIdService,
   getActivityStateService,
-  updateActivityStateService,
+  updateActivityStateByActivityIdService,
 } from "../services/activityState.service";
 
 const getActivityState = async (
@@ -77,7 +77,7 @@ const updateActivityState = async (
   try {
     const { id } = req.params;
     const updatedActivityState = req.body;
-    const result = await updateActivityStateService(id,updatedActivityState);
+    const result = await updateActivityStateByActivityIdService(id,updatedActivityState);
     res.status(200).json({
       success: true,
       data: result,

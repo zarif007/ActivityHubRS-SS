@@ -65,7 +65,7 @@ const updateActivityState = (req, res, next) => __awaiter(void 0, void 0, void 0
     try {
         const { id } = req.params;
         const updatedActivityState = req.body;
-        const result = yield (0, activityState_service_1.updateActivityStateService)(id, updatedActivityState);
+        const result = yield (0, activityState_service_1.updateActivityStateByActivityIdService)(id, updatedActivityState);
         res.status(200).json({
             success: true,
             data: result,

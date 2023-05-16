@@ -11,9 +11,9 @@ router
     .get(activityRegistration_controller_1.default.getRegistrations)
     .post(activityRegistration_controller_1.default.addRegistration);
 router
-    .route("/studentId")
+    .route("/byStudentId/:studentId")
     .get(activityRegistration_controller_1.default.getRegistrationByStudentId);
 router
-    .route("/activityId")
+    .route("/byActivityId/:activityId")
     .get(activityRegistration_controller_1.default.getRegistrationsByActivityId);
 exports.default = router;

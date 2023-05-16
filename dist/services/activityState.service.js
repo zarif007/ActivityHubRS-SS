@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateActivityStateService = exports.addActivityStateService = exports.getActivityStateByActivityIdService = exports.getActivityStateService = void 0;
+exports.bookSeatByActivityStateIdService = exports.updateActivityStateByActivityIdService = exports.addActivityStateService = exports.getActivityStateByActivityIdService = exports.getActivityStateService = void 0;
 const activityState_model_1 = require("../models/activityState.model");
 const getActivityStateService = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const activities = yield activityState_model_1.ActivityStateModel.find(query).populate("activityId");
@@ -18,7 +18,7 @@ const getActivityStateService = (query) => __awaiter(void 0, void 0, void 0, fun
 exports.getActivityStateService = getActivityStateService;
 const getActivityStateByActivityIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const filter = { activityId: id };
-    const activityState = yield activityState_model_1.ActivityStateModel.findOne(filter);
+    const activityState = yield activityState_model_1.ActivityStateModel.findOne(filter).populate("activityId");
     return activityState;
 });
 exports.getActivityStateByActivityIdService = getActivityStateByActivityIdService;
@@ -28,8 +28,14 @@ const addActivityStateService = (activityState) => __awaiter(void 0, void 0, voi
     return result;
 });
 exports.addActivityStateService = addActivityStateService;
-const updateActivityStateService = (id, updateState) => __awaiter(void 0, void 0, void 0, function* () {
+const updateActivityStateByActivityIdService = (id, updateState) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield activityState_model_1.ActivityStateModel.findOneAndUpdate({ activityId: id }, updateState, { new: true });
     return result;
 });
-exports.updateActivityStateService = updateActivityStateService;
+exports.updateActivityStateByActivityIdService = updateActivityStateByActivityIdService;
+const bookSeatByActivityStateIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const updateState = { $inc: { bookedSeat: 1 } };
+    const result = yield activityState_model_1.ActivityStateModel.findByIdAndUpdate(id, updateState, { new: true });
+    return result;
+});
+exports.bookSeatByActivityStateIdService = bookSeatByActivityStateIdService;

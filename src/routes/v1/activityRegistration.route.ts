@@ -10,11 +10,11 @@ router
   .post(ActivityRegistrationController.addRegistration);
 
 router
-  .route("/studentId")
+  .route("/byStudentId/:studentId")
   .get(ActivityRegistrationController.getRegistrationByStudentId);
 
 router
-  .route("/activityId")
+  .route("/byActivityId/:activityId")
   .get(ActivityRegistrationController.getRegistrationsByActivityId);
 
 export default router;

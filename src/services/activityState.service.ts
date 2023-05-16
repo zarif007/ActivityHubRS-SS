@@ -10,7 +10,7 @@ const getActivityStateService = async (query: object) => {
 
 const getActivityStateByActivityIdService = async (id: string) => {
   const filter = { activityId: id };
-  const activityState = await ActivityStateModel.findOne(filter);
+  const activityState = await ActivityStateModel.findOne(filter).populate("activityId");
   return activityState;
 };
 
@@ -20,19 +20,18 @@ const addActivityStateService = async (activityState: any) => {
   return result;
 };
 
-const updateActivityStateService = async (id: string, updateState: any) => {
+const updateActivityStateByActivityIdService = async (id: string, updateState: any) => {
   const result = await ActivityStateModel.findOneAndUpdate({activityId:id}, updateState,{new:true}); 
   return result;
 };
 
-// const bookSeatActivityStateService = async (id: string) => {
-//   const updateState = { $inc: { bookedSeat: 1 } }
-//   const { totalSeat} = await getActivityStateByActivityIdService(id);
-//   console.log(totalSeat);
-//   const filter = {activityId:id,bookedSeat:{ $gt:  totalSeat} }
-//   const result = await ActivityStateModel.findOneAndUpdate(filter, updateState,{new:true});
-//   return result;
-// };
+
+const bookSeatByActivityStateIdService = async (id: string) => {
+  const updateState = { $inc: { bookedSeat: 1 } }
+  const result = await ActivityStateModel.findByIdAndUpdate(id, updateState,{new:true});
+  return result;
+};
+
 // const unbookSeatActivityStateService = async (id: string) => {
 //   const updateState = { $inc: { bookedSeat: 1 } }
 //   const filter = {activityId:id, bookedSeat:{$gt:ActivityStateModel.totalSeat }}
@@ -45,7 +44,7 @@ export {
   getActivityStateService,
   getActivityStateByActivityIdService,
   addActivityStateService,
-  updateActivityStateService,
-  // bookSeatActivityStateService,
+  updateActivityStateByActivityIdService,
+  bookSeatByActivityStateIdService,
   // unbookSeatActivityStateService 
 };

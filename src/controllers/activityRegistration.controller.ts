@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { getRegistrationsByActivityIdService, getRegistrationByStudentIdService, getRegistrationsService, addRegistrationService } from "../services/activityRegistration.service";
+import { bookSeatByActivityStateIdService, getActivityStateByActivityIdService} from "../services/activityState.service";
 
 const getRegistrations = async (
   req: Request,
@@ -67,11 +68,26 @@ const getRegistrationsByActivityId = async (
 const addRegistration = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const registration = req.body;
-    const result = await addRegistrationService(registration);
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
+    const { activityId } = registration;
+    const activityState = await getActivityStateByActivityIdService(activityId);
+    if(activityState){
+      if(activityState.totalSeat<=activityState.bookedSeat){
+        res.status(400).json({
+          success: false,
+          message: "No more seats available for this activity",
+        });
+        return;
+      }
+      
+      const activity = await bookSeatByActivityStateIdService(activityState._id.toHexString());
+      console.log(activity);
+      const result = await addRegistrationService(registration);
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+
+    }
   } catch (err: any) {
     res.status(400).json({
       success: false,
