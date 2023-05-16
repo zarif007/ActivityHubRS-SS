@@ -8,6 +8,7 @@ const router = express_1.default.Router();
 const main_controller_1 = require("../../controllers/main.controller");
 const student_route_1 = __importDefault(require("./student.route"));
 const activity_route_1 = __importDefault(require("./activity.route"));
+const activityState_route_1 = __importDefault(require("./activityState.route"));
 const instructor_route_1 = __importDefault(require("./instructor.route"));
 const rateLimiter_1 = require("../../middleware/rateLimiter");
 /*
@@ -25,6 +26,11 @@ router.use('/student', rateLimiter_1.rateLimiter, student_route_1.default);
     @detail     This is every router hit point for the activity endpoints
 */
 router.use('/activity', activity_route_1.default);
+/*
+    @route      GET /api/v1/activityState/{route}
+    @detail     This is every router hit point for the activityState endpoints
+*/
+router.use('/activityState', activityState_route_1.default);
 /*
     @route      GET /api/v1/instructor/{route}
     @route      POST /api/v1/instructor/

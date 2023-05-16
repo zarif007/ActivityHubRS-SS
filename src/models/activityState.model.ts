@@ -21,7 +21,7 @@ const ActivityStateSchema = new mongoose.Schema({
         required: [true, "booked seat number is required"],
         min: [0, "Seat number can not be less than 0"],
         max: [80, "Seat number can not be more than 80"],
-    },
+    }
 }, {
     timestamps: true
 });

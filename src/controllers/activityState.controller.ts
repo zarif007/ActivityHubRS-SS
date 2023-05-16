@@ -1,0 +1,87 @@
+
+import { Request, Response, NextFunction } from "express";
+
+import { addActivityStateService, getActivityStateByActivityIdService, getActivityStateService } from "../services/activityState.service";
+
+const getActivityState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const query = req.query;
+    const activities = await getActivityStateService(query);
+    res.status(200).json({
+      success: true,
+      data: activities,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in getting activities",
+    });
+  }
+};
+
+const getActivityStateByActivityId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  try {
+    const activityState = await getActivityStateByActivityIdService(id);
+    res.status(200).json({
+      success: true,
+      data: activityState,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in getting activity state",
+    });
+  }
+};
+
+const addActivityState = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { activityState } = req.body;
+    const result = await addActivityStateService(activityState);
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in Adding activity state",
+    });
+  }
+};
+const updateActivityState = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    const { activityState } = req.body;
+    const result = await addActivityStateService(activityState);
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in Adding activity state",
+    });
+  }
+};
+
+export default {
+  getActivityState,
+  getActivityStateByActivityId,
+  addActivityState,
+  updateActivityState
+};

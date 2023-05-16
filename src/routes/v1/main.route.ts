@@ -6,7 +6,10 @@ import {getHome} from '../../controllers/main.controller';
 
 import StudentRoute from './student.route';
 import ActivityRoute from './activity.route'
+import ActivityStateRoute from './activityState.route'
 import InstructorRoute from './instructor.route'
+
+
 import { rateLimiter } from "../../middleware/rateLimiter";
  
 /*   
@@ -28,6 +31,11 @@ router.use('/student',rateLimiter, StudentRoute);
     @detail     This is every router hit point for the activity endpoints
 */
 router.use('/activity', ActivityRoute);
+/*   
+    @route      GET /api/v1/activityState/{route}
+    @detail     This is every router hit point for the activityState endpoints
+*/
+router.use('/activityState', ActivityStateRoute);
 
 /*   
     @route      GET /api/v1/instructor/{route}
