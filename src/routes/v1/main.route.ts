@@ -8,7 +8,7 @@ import StudentRoute from './student.route';
 import ActivityRoute from './activity.route'
 import ActivityStateRoute from './activityState.route'
 import InstructorRoute from './instructor.route'
-
+import ActivityRegistrationRoute from './activityRegistration.route'
 
 import { rateLimiter } from "../../middleware/rateLimiter";
  
@@ -36,6 +36,12 @@ router.use('/activity', ActivityRoute);
     @detail     This is every router hit point for the activityState endpoints
 */
 router.use('/activityState', ActivityStateRoute);
+
+/*   
+    @route      GET /api/v1/registration/{route}
+    @detail     This is every router hit point for the registration endpoints
+*/
+router.use('/registration', ActivityRegistrationRoute);
 
 /*   
     @route      GET /api/v1/instructor/{route}

@@ -1,7 +1,10 @@
-
 import { Request, Response, NextFunction } from "express";
 
-import { addActivityStateService, getActivityStateByActivityIdService, getActivityStateService } from "../services/activityState.service";
+import {
+  addActivityStateService,
+  getActivityStateByActivityIdService,
+  getActivityStateService,
+} from "../services/activityState.service";
 
 const getActivityState = async (
   req: Request,
@@ -10,16 +13,16 @@ const getActivityState = async (
 ) => {
   try {
     const query = req.query;
-    const activities = await getActivityStateService(query);
+    const activityStates = await getActivityStateService(query);
     res.status(200).json({
       success: true,
-      data: activities,
+      data: activityStates,
     });
   } catch (err: any) {
     res.status(400).json({
       success: false,
       err: err.message,
-      message: "Error in getting activities",
+      message: "Error in getting activityStates",
     });
   }
 };
@@ -45,9 +48,13 @@ const getActivityStateByActivityId = async (
   }
 };
 
-const addActivityState = async (req: Request, res: Response, next: NextFunction) => {
+const addActivityState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const { activityState } = req.body;
+    const activityState = req.body;
     const result = await addActivityStateService(activityState);
     res.status(200).json({
       success: true,
@@ -61,10 +68,14 @@ const addActivityState = async (req: Request, res: Response, next: NextFunction)
     });
   }
 };
-const updateActivityState = async (req: Request, res: Response, next: NextFunction) => {
+const updateActivityState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { id } = req.params;
-    const { activityState } = req.body;
+    const activityState = req.body;
     const result = await addActivityStateService(activityState);
     res.status(200).json({
       success: true,
@@ -83,5 +94,5 @@ export default {
   getActivityState,
   getActivityStateByActivityId,
   addActivityState,
-  updateActivityState
+  updateActivityState,
 };

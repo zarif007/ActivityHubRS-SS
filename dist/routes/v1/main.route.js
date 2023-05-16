@@ -10,6 +10,7 @@ const student_route_1 = __importDefault(require("./student.route"));
 const activity_route_1 = __importDefault(require("./activity.route"));
 const activityState_route_1 = __importDefault(require("./activityState.route"));
 const instructor_route_1 = __importDefault(require("./instructor.route"));
+const activityRegistration_route_1 = __importDefault(require("./activityRegistration.route"));
 const rateLimiter_1 = require("../../middleware/rateLimiter");
 /*
     @route      ALL /api/v1/
@@ -31,6 +32,11 @@ router.use('/activity', activity_route_1.default);
     @detail     This is every router hit point for the activityState endpoints
 */
 router.use('/activityState', activityState_route_1.default);
+/*
+    @route      GET /api/v1/registration/{route}
+    @detail     This is every router hit point for the registration endpoints
+*/
+router.use('/registration', activityRegistration_route_1.default);
 /*
     @route      GET /api/v1/instructor/{route}
     @route      POST /api/v1/instructor/

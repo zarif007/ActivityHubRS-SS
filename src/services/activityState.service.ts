@@ -1,12 +1,14 @@
 import { ActivityStateModel } from "../models/activityState.model";
 import { convertToObjectId } from "../utils/utility";
 
-const getActivityStateService = async (query: any) => {
-  const activities = await ActivityStateModel.find(query).populate("activityId");
+const getActivityStateService = async (query: object) => {
+  const activities = await ActivityStateModel.find(query).populate(
+    "activityId"
+  );
   return activities;
 };
 
-const getActivityStateByActivityIdService = async(id: string) => {
+const getActivityStateByActivityIdService = async (id: string) => {
   const filter = { activityId: id };
   const activityState = await ActivityStateModel.findOne(filter);
   return activityState;
@@ -18,11 +20,16 @@ const addActivityStateService = async (activityState: any) => {
   return result;
 };
 
-const updateActivityStateService = async (id:string,UpdateState: any) => {
-  const result = await ActivityStateModel.findByIdAndUpdate(id,UpdateState,{rawResult:true});
+const updateActivityStateService = async (id: string, UpdateState: any) => {
+  const result = await ActivityStateModel.findByIdAndUpdate(id, UpdateState, {
+    rawResult: true,
+  });
   return result;
 };
 
-
-
-export { getActivityStateService, getActivityStateByActivityIdService, addActivityStateService,updateActivityStateService };
+export {
+  getActivityStateService,
+  getActivityStateByActivityIdService,
+  addActivityStateService,
+  updateActivityStateService,
+};

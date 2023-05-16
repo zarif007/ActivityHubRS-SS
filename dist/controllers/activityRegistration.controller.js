@@ -9,45 +9,62 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const activityState_service_1 = require("../services/activityState.service");
-const getActivityState = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const activityRegistration_service_1 = require("../services/activityRegistration.service");
+const getRegistrations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = req.query;
-        const activityStates = yield (0, activityState_service_1.getActivityStateService)(query);
+        const registrations = yield (0, activityRegistration_service_1.getRegistrationsService)(query);
         res.status(200).json({
             success: true,
-            data: activityStates,
+            data: registrations,
         });
     }
     catch (err) {
         res.status(400).json({
             success: false,
             err: err.message,
-            message: "Error in getting activityStates",
+            message: "Error in getting registrations",
         });
     }
 });
-const getActivityStateByActivityId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+const getRegistrationByStudentId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const activityState = yield (0, activityState_service_1.getActivityStateByActivityIdService)(id);
+        const { studentId } = req.params;
+        const registration = yield (0, activityRegistration_service_1.getRegistrationByStudentIdService)(studentId);
         res.status(200).json({
             success: true,
-            data: activityState,
+            data: registration,
         });
     }
     catch (err) {
         res.status(400).json({
             success: false,
             err: err.message,
-            message: "Error in getting activity state",
+            message: "Error in getting registrations",
         });
     }
 });
-const addActivityState = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getRegistrationsByActivityId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const activityState = req.body;
-        const result = yield (0, activityState_service_1.addActivityStateService)(activityState);
+        const { activityId } = req.params;
+        const registrations = yield (0, activityRegistration_service_1.getRegistrationsByActivityIdService)(activityId);
+        res.status(200).json({
+            success: true,
+            data: registrations,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in getting registrations",
+        });
+    }
+});
+const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const registration = req.body;
+        const result = yield (0, activityRegistration_service_1.addRegistrationService)(registration);
         res.status(200).json({
             success: true,
             data: result,
@@ -57,31 +74,13 @@ const addActivityState = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         res.status(400).json({
             success: false,
             err: err.message,
-            message: "Error in Adding activity state",
-        });
-    }
-});
-const updateActivityState = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        const activityState = req.body;
-        const result = yield (0, activityState_service_1.addActivityStateService)(activityState);
-        res.status(200).json({
-            success: true,
-            data: result,
-        });
-    }
-    catch (err) {
-        res.status(400).json({
-            success: false,
-            err: err.message,
-            message: "Error in Adding activity state",
+            message: "Error in Adding Registration",
         });
     }
 });
 exports.default = {
-    getActivityState,
-    getActivityStateByActivityId,
-    addActivityState,
-    updateActivityState,
+    getRegistrationByStudentId,
+    getRegistrations,
+    getRegistrationsByActivityId,
+    addRegistration,
 };
