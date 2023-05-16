@@ -10,5 +10,5 @@ router
     .route("/")
     .get(student_controller_1.default.getStudents)
     .post(student_controller_1.default.addStudents);
-router.route("/email").get(student_controller_1.default.getStudentsByEmail);
+router.route("/email/:email").get(student_controller_1.default.getStudentsByEmail);
 exports.default = router;
