@@ -82,6 +82,7 @@ const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
               It saves one extra API call
             */
             try {
+                // Inserting registration to DB
                 const result = yield (0, activityRegistration_service_1.addRegistrationService)(registration);
                 // Incrementing booked seat
                 yield (0, activityState_service_1.bookSeatByActivityStateIdService)(activityState._id.toHexString());

@@ -9,6 +9,7 @@ import {
   bookSeatByActivityStateIdService,
   getActivityStateByActivityIdService,
 } from "../services/activityState.service";
+import { getStudentByIdService } from "../services/student.services";
 
 const getRegistrations = async (
   req: Request,
@@ -100,6 +101,7 @@ const addRegistration = async (
         It saves one extra API call
       */
       try {
+        // Inserting registration to DB
         const result = await addRegistrationService(registration);
         // Incrementing booked seat
         await bookSeatByActivityStateIdService(activityState._id.toHexString());
