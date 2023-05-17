@@ -1,6 +1,14 @@
 import { Request, Response, NextFunction } from "express";
-import { getRegistrationsByActivityIdService, getRegistrationByStudentIdService, getRegistrationsService, addRegistrationService } from "../services/activityRegistration.service";
-import { bookSeatByActivityStateIdService, getActivityStateByActivityIdService} from "../services/activityState.service";
+import {
+  getRegistrationsByActivityIdService,
+  getRegistrationByStudentIdService,
+  getRegistrationsService,
+  addRegistrationService,
+} from "../services/activityRegistration.service";
+import {
+  bookSeatByActivityStateIdService,
+  getActivityStateByActivityIdService,
+} from "../services/activityState.service";
 
 const getRegistrations = async (
   req: Request,
@@ -65,28 +73,53 @@ const getRegistrationsByActivityId = async (
   }
 };
 
-const addRegistration = async (req: Request, res: Response, next: NextFunction) => {
+const addRegistration = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const registration = req.body;
     const { activityId } = registration;
+
+    // Fetching activity state for seat status
     const activityState = await getActivityStateByActivityIdService(activityId);
-    if(activityState){
-      if(activityState.totalSeat<=activityState.bookedSeat){
+
+    // Checking if there is available seats in this activity
+    if (activityState) {
+      if (activityState.totalSeat <= activityState.bookedSeat) {
         res.status(400).json({
           success: false,
           message: "No more seats available for this activity",
         });
         return;
       }
-      
-      const activity = await bookSeatByActivityStateIdService(activityState._id.toHexString());
-      console.log(activity);
-      const result = await addRegistrationService(registration);
-      res.status(200).json({
-        success: true,
-        data: result,
-      });
 
+      /*
+        Try/Catch for checking if this email enrolled to an activity or not
+        It saves one extra API call
+      */
+      try {
+        const result = await addRegistrationService(registration);
+        // Incrementing booked seat
+        await bookSeatByActivityStateIdService(activityState._id.toHexString());
+        res.status(200).json({
+          success: true,
+          data: result,
+        });
+      } catch (err: any) {
+        res.status(400).json({
+          success: false,
+          err: err.message,
+          message: "User with this email already enrolled to an activity",
+        });
+      }
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "No activity found",
+      });
+      return;
     }
   } catch (err: any) {
     res.status(400).json({
@@ -102,4 +135,4 @@ export default {
   getRegistrations,
   getRegistrationsByActivityId,
   addRegistration,
-}
+};

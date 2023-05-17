@@ -66,7 +66,9 @@ const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     try {
         const registration = req.body;
         const { activityId } = registration;
+        // Fetching activity state for seat status
         const activityState = yield (0, activityState_service_1.getActivityStateByActivityIdService)(activityId);
+        // Checking if there is available seats in this activity
         if (activityState) {
             if (activityState.totalSeat <= activityState.bookedSeat) {
                 res.status(400).json({
@@ -75,13 +77,33 @@ const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
                 });
                 return;
             }
-            const activity = yield (0, activityState_service_1.bookSeatByActivityStateIdService)(activityState._id.toHexString());
-            console.log(activity);
-            const result = yield (0, activityRegistration_service_1.addRegistrationService)(registration);
-            res.status(200).json({
-                success: true,
-                data: result,
+            /*
+              Try/Catch for checking if this email enrolled to an activity or not
+              It saves one extra API call
+            */
+            try {
+                const result = yield (0, activityRegistration_service_1.addRegistrationService)(registration);
+                // Incrementing booked seat
+                yield (0, activityState_service_1.bookSeatByActivityStateIdService)(activityState._id.toHexString());
+                res.status(200).json({
+                    success: true,
+                    data: result,
+                });
+            }
+            catch (err) {
+                res.status(400).json({
+                    success: false,
+                    err: err.message,
+                    message: "User with this email already enrolled to an activity",
+                });
+            }
+        }
+        else {
+            res.status(400).json({
+                success: false,
+                message: "No activity found",
             });
+            return;
         }
     }
     catch (err) {
