@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { InstructorInterface } from "../types/instructor";
 
-const InstructorSchema = new mongoose.Schema({
+const InstructorSchema = new mongoose.Schema<InstructorInterface>({
     shortName: {
         type: String,
         default: "",

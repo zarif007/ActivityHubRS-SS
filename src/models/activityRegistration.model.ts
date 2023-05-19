@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { RegistrationInterface } from "../types/registration";
 
-const ActivityRegistrationSchema = new mongoose.Schema(
+const ActivityRegistrationSchema = new mongoose.Schema<RegistrationInterface>(
   {
     studentId: {
       type: mongoose.Schema.Types.ObjectId,

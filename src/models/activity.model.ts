@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { ActivityInterface } from "../types/activity";
 
-const ActivitySchema = new mongoose.Schema(
+const ActivitySchema = new mongoose.Schema<ActivityInterface>(
   {
     name: {
       type: String,
