@@ -18,7 +18,15 @@ const getActivityStateService = (query) => __awaiter(void 0, void 0, void 0, fun
 exports.getActivityStateService = getActivityStateService;
 const getActivityStateByActivityIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const filter = { activityId: id };
-    const activityState = yield activityState_model_1.ActivityStateModel.findOne(filter).populate("activityId");
+    const activityState = yield activityState_model_1.ActivityStateModel.findOne(filter)
+        .populate("activityId")
+        .populate({
+        path: 'activityId',
+        populate: {
+            path: 'instructor',
+            model: 'Instructor'
+        }
+    });
     return activityState;
 });
 exports.getActivityStateByActivityIdService = getActivityStateByActivityIdService;
@@ -35,7 +43,9 @@ const updateActivityStateByActivityIdService = (id, updateState) => __awaiter(vo
 exports.updateActivityStateByActivityIdService = updateActivityStateByActivityIdService;
 const bookSeatByActivityStateIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const updateState = { $inc: { bookedSeat: 1 } };
-    const result = yield activityState_model_1.ActivityStateModel.findByIdAndUpdate(id, updateState, { new: true });
+    const result = yield activityState_model_1.ActivityStateModel.findByIdAndUpdate(id, updateState, {
+        new: true,
+    });
     return result;
 });
 exports.bookSeatByActivityStateIdService = bookSeatByActivityStateIdService;

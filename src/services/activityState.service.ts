@@ -12,7 +12,13 @@ const getActivityStateByActivityIdService = async (id: string) => {
   const filter = { activityId: id };
   const activityState = await ActivityStateModel.findOne(filter)
     .populate("activityId")
-    .populate("instructor");
+    .populate({
+      path: 'activityId',
+      populate: {
+       path: 'instructor',
+       model: 'Instructor'
+      } 
+    });
   return activityState;
 };
 
