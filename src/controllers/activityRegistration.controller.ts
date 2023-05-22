@@ -4,6 +4,7 @@ import {
   getRegistrationByStudentIdService,
   getRegistrationsService,
   addRegistrationService,
+  downloadRegistrationsService,
 } from "../services/activityRegistration.service";
 import {
   bookSeatByActivityStateIdService,
@@ -12,6 +13,8 @@ import {
 import { getStudentByIdService } from "../services/student.services";
 import { sendSms } from "../services/sms.service";
 import { ActivityInterface } from "../types/activity";
+
+import exceljs from "exceljs";
 
 const getRegistrations = async (
   req: Request,
@@ -75,6 +78,55 @@ const getRegistrationsByActivityId = async (
     });
   }
 };
+const downloadRegistrations = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+
+    const registrations = await downloadRegistrationsService();
+
+    // res.status(200).json({registrations});
+    // return ;
+    const workbook = new exceljs.Workbook();
+    const headers = [
+      { header: "SL", key: "sl", width: 5 },
+      { header: "Name", key: "name", width: 35 },
+      { header: "ID", key: "studentId", width: 12 },
+      { header: "Email", key: "email", width: 30 },
+      { header: "Phone Number", key: "phoneNumber", width: 15 },
+      { header: "Bng Section", key: "bngSection", width: 15 },
+    ]
+
+    registrations.map((registration: any) => {
+      const worksheet = workbook.addWorksheet(registration.activity);
+      worksheet.columns = headers;
+      const headerRow = worksheet.getRow(1);
+      headerRow.font = { bold: true,size: 12 };
+      headerRow.alignment = { vertical: "middle", horizontal: "center" };
+      
+      worksheet.addRows(registration.students);
+    })
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=${"Activity Registration.xlsx"}`
+    );
+    await workbook.xlsx.write(res)
+
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in getting registrations",
+    });
+  }
+};
 
 const addRegistration = async (
   req: Request,
@@ -82,8 +134,8 @@ const addRegistration = async (
   next: NextFunction
 ) => {
   try {
-    const {activityId, studentId,studentName,newPhoneNumber} = req.body;
-    
+    const { activityId, studentId, studentName, newPhoneNumber } = req.body;
+
 
     // Fetching activity state for seat status
     const activityState = await getActivityStateByActivityIdService(activityId);
@@ -103,20 +155,20 @@ const addRegistration = async (
       */
       try {
         // Inserting registration to DB
-        const result = await addRegistrationService({activityId, studentId});
+        const result = await addRegistrationService({ activityId, studentId });
         // Incrementing booked seat
         await bookSeatByActivityStateIdService(activityState._id.toHexString());
 
         // Sending sms to student
-        
-        const smsResponse:any = await sendSms(
+
+        const smsResponse: any = await sendSms(
           newPhoneNumber,
           `${studentName} has been successfully registered to ${activityState.activityId.name} activity`
         );
-        
+
         res.status(200).json({
           success: true,
-          data: {smsResponse}
+          data: { smsResponse }
         });
       } catch (err: any) {
         res.status(400).json({
@@ -141,9 +193,13 @@ const addRegistration = async (
   }
 };
 
+
+
+
 export default {
   getRegistrationByStudentId,
   getRegistrations,
   getRegistrationsByActivityId,
   addRegistration,
+  downloadRegistrations
 };

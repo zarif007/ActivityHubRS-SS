@@ -15,6 +15,9 @@ router
     .route("/checkStatus")
     .get(activityState_controller_1.default.checkActivityStatus);
 router
+    .route("/export")
+    .get(activityRegistration_controller_1.default.downloadRegistrations);
+router
     .route("/byStudentId/:studentId")
     .get(activityRegistration_controller_1.default.getRegistrationByStudentId);
 router
