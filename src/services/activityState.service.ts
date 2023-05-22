@@ -1,5 +1,6 @@
+import { ActivityInterface } from './../types/activity/index';
 import { ActivityStateModel } from "../models/activityState.model";
-import { convertToObjectId } from "../utils/utility";
+
 
 const getActivityStateService = async (query: object) => {
   const activities = await ActivityStateModel.find(query).populate(
@@ -11,7 +12,7 @@ const getActivityStateService = async (query: object) => {
 const getActivityStateByActivityIdService = async (id: string) => {
   const filter = { activityId: id };
   const activityState = await ActivityStateModel.findOne(filter)
-    .populate("activityId")
+    .populate<{activityId:ActivityInterface}>("activityId")
     .populate({
       path: 'activityId',
       populate: {
