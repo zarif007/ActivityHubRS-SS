@@ -10,6 +10,8 @@ import {
   getActivityStateByActivityIdService,
 } from "../services/activityState.service";
 import { getStudentByIdService } from "../services/student.services";
+import { sendSms } from "../services/sms.service";
+import { ActivityInterface } from "../types/activity";
 
 const getRegistrations = async (
   req: Request,
@@ -80,8 +82,8 @@ const addRegistration = async (
   next: NextFunction
 ) => {
   try {
-    const registration = req.body;
-    const { activityId } = registration;
+    const {activityId, studentId,studentName,newPhoneNumber} = req.body;
+    
 
     // Fetching activity state for seat status
     const activityState = await getActivityStateByActivityIdService(activityId);
@@ -95,19 +97,26 @@ const addRegistration = async (
         });
         return;
       }
-
       /*
         Try/Catch for checking if this email enrolled to an activity or not
         It saves one extra API call
       */
       try {
         // Inserting registration to DB
-        const result = await addRegistrationService(registration);
+        const result = await addRegistrationService({activityId, studentId});
         // Incrementing booked seat
         await bookSeatByActivityStateIdService(activityState._id.toHexString());
+
+        // Sending sms to student
+        
+        const smsResponse:any = await sendSms(
+          newPhoneNumber,
+          `${studentName} has been successfully registered to ${activityState.activityId.name} activity`
+        );
+        
         res.status(200).json({
           success: true,
-          data: result,
+          data: {smsResponse}
         });
       } catch (err: any) {
         res.status(400).json({
