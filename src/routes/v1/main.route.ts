@@ -9,6 +9,7 @@ import ActivityStateRoute from "./activityState.route";
 import InstructorRoute from "./instructor.route";
 import ActivityRegistrationRoute from "./activityRegistration.route";
 import SmsRoute from "./sms.route";
+import SeminarRoute from './seminar.route'
 
 import { rateLimiter } from "../../middleware/rateLimiter";
 
@@ -51,4 +52,6 @@ router.use("/instructor", InstructorRoute);
 
 // 
 router.use("/sms", SmsRoute);
+
+router.use('/seminar',SeminarRoute)
 export default router;

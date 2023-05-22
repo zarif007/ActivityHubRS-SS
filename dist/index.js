@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const app_1 = __importDefault(require("./app"));
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.MAC_PORT || process.env.PORT || 5000;
 // Database connection
 const dConnect_1 = require("./utils/dConnect");
 (0, dConnect_1.connectToDatabase)();
