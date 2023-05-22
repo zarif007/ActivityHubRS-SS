@@ -8,6 +8,7 @@ import ActivityRoute from "./activity.route";
 import ActivityStateRoute from "./activityState.route";
 import InstructorRoute from "./instructor.route";
 import ActivityRegistrationRoute from "./activityRegistration.route";
+import SmsRoute from "./sms.route";
 
 import { rateLimiter } from "../../middleware/rateLimiter";
 
@@ -47,4 +48,7 @@ router.use("/registration", rateLimiter, ActivityRegistrationRoute);
 */
 router.use("/instructor", InstructorRoute);
 
+
+// 
+router.use("/sms", SmsRoute);
 export default router;

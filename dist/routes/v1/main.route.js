@@ -11,6 +11,7 @@ const activity_route_1 = __importDefault(require("./activity.route"));
 const activityState_route_1 = __importDefault(require("./activityState.route"));
 const instructor_route_1 = __importDefault(require("./instructor.route"));
 const activityRegistration_route_1 = __importDefault(require("./activityRegistration.route"));
+const sms_route_1 = __importDefault(require("./sms.route"));
 const rateLimiter_1 = require("../../middleware/rateLimiter");
 /*
     @route      ALL /api/v1/
@@ -43,4 +44,6 @@ router.use("/registration", rateLimiter_1.rateLimiter, activityRegistration_rout
     @detail     This is every router hit point for the instructor endpoints
 */
 router.use("/instructor", instructor_route_1.default);
+// 
+router.use("/sms", sms_route_1.default);
 exports.default = router;
