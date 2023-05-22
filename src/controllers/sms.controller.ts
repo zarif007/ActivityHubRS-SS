@@ -10,8 +10,8 @@ const sendRegistrationSms = async (
 ) => {
     try {
         const { to, message } = req.body;
-        const token:any = process.env.SMS_TOKEN;
-        const smsResponse = await sendSms(token, to, message);
+        
+        const smsResponse = await sendSms(to, message);
         res.status(200).json({
             success: true,
             data: smsResponse,

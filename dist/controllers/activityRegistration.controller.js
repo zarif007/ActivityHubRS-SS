@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const activityRegistration_service_1 = require("../services/activityRegistration.service");
 const activityState_service_1 = require("../services/activityState.service");
+const sms_service_1 = require("../services/sms.service");
 const getRegistrations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = req.query;
@@ -64,8 +65,7 @@ const getRegistrationsByActivityId = (req, res, next) => __awaiter(void 0, void 
 });
 const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const registration = req.body;
-        const { activityId } = registration;
+        const { activityId, studentId, studentName, newPhoneNumber } = req.body;
         // Fetching activity state for seat status
         const activityState = yield (0, activityState_service_1.getActivityStateByActivityIdService)(activityId);
         // Checking if there is available seats in this activity
@@ -83,12 +83,14 @@ const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             */
             try {
                 // Inserting registration to DB
-                const result = yield (0, activityRegistration_service_1.addRegistrationService)(registration);
+                const result = yield (0, activityRegistration_service_1.addRegistrationService)({ activityId, studentId });
                 // Incrementing booked seat
                 yield (0, activityState_service_1.bookSeatByActivityStateIdService)(activityState._id.toHexString());
+                // Sending sms to student
+                const smsResponse = yield (0, sms_service_1.sendSms)(newPhoneNumber, `${studentName} has been successfully registered to ${activityState.activityId.name} activity`);
                 res.status(200).json({
                     success: true,
-                    data: result,
+                    data: { smsResponse }
                 });
             }
             catch (err) {
