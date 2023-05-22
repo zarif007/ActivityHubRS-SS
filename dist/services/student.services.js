@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addStudentsService = exports.getStudentsByStudentIdService = exports.getStudentsByEmailService = exports.getStudentsService = void 0;
+exports.addStudentsService = exports.getStudentByIdService = exports.getStudentsByEmailService = exports.getStudentsService = void 0;
 const student_model_1 = require("../models/student.model");
 const getStudentsService = () => __awaiter(void 0, void 0, void 0, function* () {
     const students = yield student_model_1.StudentModel.find({});
@@ -21,11 +21,11 @@ const getStudentsByEmailService = (email) => __awaiter(void 0, void 0, void 0, f
     return student;
 });
 exports.getStudentsByEmailService = getStudentsByEmailService;
-const getStudentsByStudentIdService = (studentId) => __awaiter(void 0, void 0, void 0, function* () {
-    const student = yield student_model_1.StudentModel.findOne({ studentId });
+const getStudentByIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const student = yield student_model_1.StudentModel.findOne({ _id: id });
     return student;
 });
-exports.getStudentsByStudentIdService = getStudentsByStudentIdService;
+exports.getStudentByIdService = getStudentByIdService;
 const addStudentsService = (students) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield student_model_1.StudentModel.insertMany(students);
     return result;

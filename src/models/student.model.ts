@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { StudentInterface } from "../types/student";
 
-const StudentSchema = new mongoose.Schema({
+const StudentSchema = new mongoose.Schema<StudentInterface>({
     studentId: {
         type: String,
         required: [true, "Student id is required"],

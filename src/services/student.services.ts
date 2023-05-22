@@ -9,8 +9,8 @@ const getStudentsByEmailService = async (email: String) => {
   const student = await StudentModel.findOne({ email });
   return student;
 };
-const getStudentsByStudentIdService = async (studentId: String) => {
-  const student = await StudentModel.findOne({ studentId });
+const getStudentByIdService = async (id: String) => {
+  const student = await StudentModel.findOne({ _id: id });
   return student;
 };
 
@@ -22,6 +22,6 @@ const addStudentsService = async (students: JSON) => {
 export {
   getStudentsService,
   getStudentsByEmailService,
-  getStudentsByStudentIdService,
+  getStudentByIdService,
   addStudentsService,
 };

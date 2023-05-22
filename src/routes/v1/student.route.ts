@@ -9,6 +9,6 @@ router
   .get(studentController.getStudents)
   .post(studentController.addStudents);
 
-router.route("/email").get(studentController.getStudentsByEmail);
+router.route("/byEmail/:email").get(studentController.getStudentsByEmail);
 
 export default router;

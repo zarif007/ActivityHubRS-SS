@@ -27,7 +27,7 @@ const getStudentsByEmail = async (
   next: NextFunction
 ) => {
   try {
-    const { email } = req.body;
+    const { email } = req.params;
     const student = await getStudentsByEmailService(email);
     res.status(200).json({
       success: true,
