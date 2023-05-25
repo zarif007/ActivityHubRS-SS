@@ -15,9 +15,10 @@ connectToDatabase();
 
 
 
-// Server Startter
+// Server Starter
 app.listen(PORT, () => {
   console.log(`Server started @ port ${PORT}`);
+  console.log(`Process ID ${process.pid}`);
 });
 
 
