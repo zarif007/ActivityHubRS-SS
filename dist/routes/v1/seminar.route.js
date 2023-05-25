@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const seminar_controller_1 = __importDefault(require("../../controllers/seminar.controller"));
 const router = express_1.default.Router();
 router
-    .route('/')
-    .get(seminar_controller_1.default.getSeminar);
+    .route("/")
+    .get(seminar_controller_1.default.getSeminar)
+    .post(seminar_controller_1.default.addSeminar);
 exports.default = router;

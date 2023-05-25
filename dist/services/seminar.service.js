@@ -9,10 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSeminarService = void 0;
+exports.addSeminarService = exports.getSeminarService = void 0;
 const seminar_model_1 = require("../models/seminar.model");
 const getSeminarService = () => __awaiter(void 0, void 0, void 0, function* () {
     const seminars = yield seminar_model_1.SeminarModel.find({});
     return seminars;
 });
 exports.getSeminarService = getSeminarService;
+const addSeminarService = (seminar) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield seminar_model_1.SeminarModel.create(seminar);
+    return result;
+});
+exports.addSeminarService = addSeminarService;

@@ -29,7 +29,10 @@ const SeminarSchema = new mongoose_1.default.Schema({
         type: String,
         default: 'To Be Announced'
     },
-    registeredStudents: []
+    registeredStudents: {
+        type: [String],
+        default: []
+    }
 }, {
     timestamps: true
 });

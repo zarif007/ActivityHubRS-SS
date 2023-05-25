@@ -5,4 +5,9 @@ const getSeminarService = async ()=>{
     return seminars
 }
 
-export { getSeminarService }
+const addSeminarService = async (seminar: Object) => {
+    const result = await SeminarModel.create(seminar);
+    return result;
+}
+
+export { getSeminarService, addSeminarService }

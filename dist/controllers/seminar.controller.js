@@ -15,7 +15,7 @@ const getSeminar = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const seminar = yield (0, seminar_service_1.getSeminarService)();
         res.status(200).json({
             success: true,
-            data: seminar
+            data: seminar,
         });
     }
     catch (err) {
@@ -26,4 +26,21 @@ const getSeminar = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
-exports.default = { getSeminar };
+const addSeminar = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const seminar = req.body;
+        const result = yield (0, seminar_service_1.addSeminarService)(seminar);
+        res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in Adding new seminar",
+        });
+    }
+});
+exports.default = { getSeminar, addSeminar };
