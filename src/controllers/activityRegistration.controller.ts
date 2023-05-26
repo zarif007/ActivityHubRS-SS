@@ -10,7 +10,10 @@ import {
   bookSeatByActivityStateIdService,
   getActivityStateByActivityIdService,
 } from "../services/activityState.service";
-import { getStudentByIdService, updateStudentById } from "../services/student.services";
+import {
+  getStudentByIdService,
+  updateStudentById,
+} from "../services/student.services";
 import { sendSms } from "../services/sms.service";
 import { ActivityInterface } from "../types/activity";
 
@@ -84,7 +87,6 @@ const downloadRegistrations = async (
   next: NextFunction
 ) => {
   try {
-
     const registrations = await downloadRegistrationsService();
 
     // res.status(200).json({registrations});
@@ -97,7 +99,7 @@ const downloadRegistrations = async (
       { header: "Email", key: "email", width: 30 },
       { header: "Phone Number", key: "phoneNumber", width: 15 },
       { header: "Bng Section", key: "bngSection", width: 15 },
-    ]
+    ];
 
     registrations.map((registration: any) => {
       const worksheet = workbook.addWorksheet(registration.activity);
@@ -107,7 +109,7 @@ const downloadRegistrations = async (
       headerRow.alignment = { vertical: "middle", horizontal: "center" };
 
       worksheet.addRows(registration.students);
-    })
+    });
 
     res.setHeader(
       "Content-Type",
@@ -117,8 +119,7 @@ const downloadRegistrations = async (
       "Content-Disposition",
       `attachment; filename=${"Activity Registration.xlsx"}`
     );
-    await workbook.xlsx.write(res)
-
+    await workbook.xlsx.write(res);
   } catch (err: any) {
     res.status(400).json({
       success: false,
@@ -141,7 +142,6 @@ const addRegistration = async (
 
     // Checking if there is available seats in this activity
     if (activityState) {
-
       if (activityState.totalSeat <= activityState.bookedSeat) {
         res.status(400).json({
           success: false,
@@ -151,75 +151,70 @@ const addRegistration = async (
       }
 
       const student = await getStudentByIdService(studentId);
-      const validGender = activityState.activityId.remarks.gender
+      const validGender = activityState.activityId.remarks.gender;
       if (!student) {
         res.status(400).json({
           success: false,
           message: "Student not found in this email",
         });
         return;
-      }
-      else if (validGender!="Both" && validGender!=student.gender) {
+      } else if (validGender != "Both" && validGender != student.gender) {
         res.status(400).json({
           success: false,
-          message:`This activity is only available for ${validGender}`
+          message: `This activity is only available for ${validGender}`,
         });
         return;
       }
-      
-        /*
+
+      /*
           Try/Catch for checking if this email enrolled to an activity or not
           It saves one extra API call
         */
-        try {
+      try {
+        // Inserting registration to DB
+        await addRegistrationService({ activityId, studentId });
+        // Incrementing booked seat
+        await bookSeatByActivityStateIdService(activityState._id.toHexString());
+        // Updating phone number 
+        await updateStudentById(studentId, { phoneNumber: newPhoneNumber });
 
-          await updateStudentById(studentId, { phoneNumber: newPhoneNumber })
-          // Inserting registration to DB
-          await addRegistrationService({ activityId, studentId });
-          // Incrementing booked seat
-          await bookSeatByActivityStateIdService(activityState._id.toHexString());
+        // Sending sms to student
+        const smsResponse: any = await sendSms(
+          newPhoneNumber,
+          `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity. `
+        );
 
-          // Sending sms to student
-
-          const smsResponse: any = await sendSms(
-            newPhoneNumber,
-            `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity. `
-          );
-
-          res.status(200).json({
-            success: true,
-            data: { smsResponse }
-          });
-        } catch (err: any) {
-          res.status(400).json({
-            success: false,
-            err: err.message,
-            message: "User with this email already enrolled to an activity",
-          });
-        }
-      } else {
+        res.status(200).json({
+          success: true,
+          data: { smsResponse },
+        });
+      } catch (err: any) {
         res.status(400).json({
           success: false,
-          message: "No activity found",
+          err: err.message,
+          message: "User with this email already enrolled to an activity",
         });
-        return;
       }
-    } catch (err: any) {
+    } else {
       res.status(400).json({
         success: false,
-        err: err.message,
-        message: "Error in Adding Registration",
+        message: "No activity found",
       });
+      return;
     }
-  };
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in Adding Registration",
+    });
+  }
+};
 
-
-
-
-  export default {
-    getRegistrationByStudentId,
-    getRegistrations,
-    getRegistrationsByActivityId,
-    addRegistration,
-    downloadRegistrations
-  };
+export default {
+  getRegistrationByStudentId,
+  getRegistrations,
+  getRegistrationsByActivityId,
+  addRegistration,
+  downloadRegistrations,
+};
