@@ -12,6 +12,10 @@ router
 router
   .route("/checkStatus")
   .get(ActivityStateController.checkActivityStatus);
+  
+router
+  .route("/export")
+  .get(ActivityRegistrationController.downloadRegistrations);
 
 router
   .route("/byStudentId/:studentId")

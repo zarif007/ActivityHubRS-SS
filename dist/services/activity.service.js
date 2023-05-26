@@ -21,9 +21,9 @@ const getActivityByIdService = (id) => __awaiter(void 0, void 0, void 0, functio
     return activity;
 });
 exports.getActivityByIdService = getActivityByIdService;
-// Single activity insertion
-const addActivityService = (activity) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield activity_model_1.ActivityModel.create(activity);
+// Multiple activity insertion
+const addActivityService = (activities) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield activity_model_1.ActivityModel.create(activities);
     return result;
 });
 exports.addActivityService = addActivityService;

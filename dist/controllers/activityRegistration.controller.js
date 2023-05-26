@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const activityRegistration_service_1 = require("../services/activityRegistration.service");
 const activityState_service_1 = require("../services/activityState.service");
+const sms_service_1 = require("../services/sms.service");
+const exceljs_1 = __importDefault(require("exceljs"));
 const getRegistrations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = req.query;
@@ -62,10 +67,43 @@ const getRegistrationsByActivityId = (req, res, next) => __awaiter(void 0, void 
         });
     }
 });
+const downloadRegistrations = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const registrations = yield (0, activityRegistration_service_1.downloadRegistrationsService)();
+        // res.status(200).json({registrations});
+        // return ;
+        const workbook = new exceljs_1.default.Workbook();
+        const headers = [
+            { header: "SL", key: "sl", width: 5 },
+            { header: "Name", key: "name", width: 35 },
+            { header: "ID", key: "studentId", width: 12 },
+            { header: "Email", key: "email", width: 30 },
+            { header: "Phone Number", key: "phoneNumber", width: 15 },
+            { header: "Bng Section", key: "bngSection", width: 15 },
+        ];
+        registrations.map((registration) => {
+            const worksheet = workbook.addWorksheet(registration.activity);
+            worksheet.columns = headers;
+            const headerRow = worksheet.getRow(1);
+            headerRow.font = { bold: true, size: 12 };
+            headerRow.alignment = { vertical: "middle", horizontal: "center" };
+            worksheet.addRows(registration.students);
+        });
+        res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        res.setHeader("Content-Disposition", `attachment; filename=${"Activity Registration.xlsx"}`);
+        yield workbook.xlsx.write(res);
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in getting registrations",
+        });
+    }
+});
 const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const registration = req.body;
-        const { activityId } = registration;
+        const { activityId, studentId, studentName, newPhoneNumber } = req.body;
         // Fetching activity state for seat status
         const activityState = yield (0, activityState_service_1.getActivityStateByActivityIdService)(activityId);
         // Checking if there is available seats in this activity
@@ -83,12 +121,14 @@ const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             */
             try {
                 // Inserting registration to DB
-                const result = yield (0, activityRegistration_service_1.addRegistrationService)(registration);
+                const result = yield (0, activityRegistration_service_1.addRegistrationService)({ activityId, studentId });
                 // Incrementing booked seat
                 yield (0, activityState_service_1.bookSeatByActivityStateIdService)(activityState._id.toHexString());
+                // Sending sms to student
+                const smsResponse = yield (0, sms_service_1.sendSms)(newPhoneNumber, `${studentName} has been successfully registered to ${activityState.activityId.name} activity`);
                 res.status(200).json({
                     success: true,
-                    data: result,
+                    data: { smsResponse }
                 });
             }
             catch (err) {
@@ -120,4 +160,5 @@ exports.default = {
     getRegistrations,
     getRegistrationsByActivityId,
     addRegistration,
+    downloadRegistrations
 };

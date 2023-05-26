@@ -8,26 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDb = exports.connectToDatabase = void 0;
-const mongoose_1 = __importDefault(require("mongoose"));
-const dbUri = process.env.DATABASE_URI;
-const dbName = process.env.DATABASE_NAME;
-let _db;
-const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield mongoose_1.default.connect(`${dbUri}`, { dbName });
-        console.log(`Successfully connected to Database [${dbName}]`);
-    }
-    catch (err) {
-        console.log(err);
-    }
+exports.addSeminarService = exports.getSeminarService = void 0;
+const seminar_model_1 = require("../models/seminar.model");
+const getSeminarService = () => __awaiter(void 0, void 0, void 0, function* () {
+    const seminars = yield seminar_model_1.SeminarModel.find({});
+    return seminars;
 });
-exports.connectToDatabase = connectToDatabase;
-const getDb = () => {
-    return _db;
-};
-exports.getDb = getDb;
+exports.getSeminarService = getSeminarService;
+const addSeminarService = (seminar) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield seminar_model_1.SeminarModel.create(seminar);
+    return result;
+});
+exports.addSeminarService = addSeminarService;

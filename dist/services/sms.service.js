@@ -14,11 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendSms = void 0;
 const axios_1 = __importDefault(require("axios"));
-const sendSms = (token, to, message) => __awaiter(void 0, void 0, void 0, function* () {
+const sendSms = (to, message) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!to.startsWith('+88')) {
+        to = `+88${to}`;
+    }
+    const token = process.env.SMS_TOKEN;
     const smsApiUrl = process.env.SMS_API;
     const smsParams = new URLSearchParams();
     smsParams.append('token', token);
-    smsParams.append('to', `+88${to}`);
+    smsParams.append('to', to);
     smsParams.append('message', message);
     try {
         const response = yield axios_1.default.post(smsApiUrl, smsParams);

@@ -28,22 +28,18 @@ const StudentSchema = new mongoose.Schema<StudentInterface>({
     },
     roomNumber: {
         type: String,
-        required: [true, "room no is required"],
     },
     semester: {
         type: String,
     },
     phoneNumber: {
         type: String,
-        // required: [true, "phone no is required"],
     },
     bngSection: {
         type: String,
-        required: [true, "BNG section is required"],
     },
     engSection: {
         type: String,
-        // required: [true, "ENG section is required"],
     },
 
 }, {

@@ -21,7 +21,7 @@ const ActivityRegistrationSchema = new mongoose_1.default.Schema({
     },
     session: {
         type: String,
-        required: [true, "Session is required"],
+        default: "Summer2023",
     },
 }, {
     timestamps: true,

@@ -13,8 +13,7 @@ const sms_service_1 = require("../services/sms.service");
 const sendRegistrationSms = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { to, message } = req.body;
-        const token = process.env.SMS_TOKEN;
-        const smsResponse = yield (0, sms_service_1.sendSms)(token, to, message);
+        const smsResponse = yield (0, sms_service_1.sendSms)(to, message);
         res.status(200).json({
             success: true,
             data: smsResponse,
