@@ -37,7 +37,7 @@ const InstructorSchema = new mongoose_1.default.Schema({
     },
     image: {
         type: String,
-        default: "https://www.freepik.com/free-vector/illustration-user-avatar-icon_2606572.htm#query=default%20user&position=0&from_view=search&track=ais",
+        default: "https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg",
     },
     // We should add a field to keep track, if the instructor is from bracU or not
 }, {

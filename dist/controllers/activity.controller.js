@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const activity_service_1 = require("../services/activity.service");
+const instructor_services_1 = require("../services/instructor.services");
+const activityState_service_1 = require("../services/activityState.service");
 const getActivities = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const query = req.query;
@@ -46,12 +48,27 @@ const getActivityById = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
 });
 const addActivity = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { activity } = req.body;
-        const result = yield (0, activity_service_1.addActivityService)(activity);
-        res.status(200).json({
-            success: true,
-            data: result,
-        });
+        const { activities } = req.body;
+        // when admin dashboard is ready, will change this
+        const newActivities = yield Promise.all(activities.map((activity) => __awaiter(void 0, void 0, void 0, function* () {
+            const instructor = yield (0, instructor_services_1.getInstructorService)({ "shortName": activity.instructor });
+            activity.instructor = instructor[0]._id;
+            return activity;
+        })));
+        const addedActivities = yield Promise.all(newActivities.map((activity) => __awaiter(void 0, void 0, void 0, function* () {
+            const result = yield (0, activity_service_1.addActivityService)(activity);
+            return { activityId: result._id, totalSeat: activity.totalSeat };
+        })));
+        if (addedActivities) {
+            const result = yield (0, activityState_service_1.addActivityStateService)(addedActivities);
+            if (result) {
+                res.status(200).json({
+                    success: true,
+                    data: result,
+                    message: "Activity added successfully",
+                });
+            }
+        }
     }
     catch (err) {
         res.status(400).json({

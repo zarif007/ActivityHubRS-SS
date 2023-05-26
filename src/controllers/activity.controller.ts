@@ -5,6 +5,8 @@ import {
   getActivitiesService,
   getActivityByIdService,
 } from "../services/activity.service";
+import { getInstructorService } from "../services/instructor.services";
+import { addActivityStateService } from "../services/activityState.service";
 
 const getActivities = async (
   req: Request,
@@ -50,12 +52,30 @@ const getActivityById = async (
 
 const addActivity = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { activity } = req.body;
-    const result = await addActivityService(activity);
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
+    const { activities } = req.body;
+    
+    // when admin dashboard is ready, will change this
+    
+    const newActivities = await Promise.all(activities.map(async(activity: any) => {
+      const instructor = await getInstructorService({ "shortName": activity.instructor });
+      activity.instructor = instructor[0]._id;
+      return activity;
+    }));
+    const addedActivities = await Promise.all(newActivities.map(async(activity: any) => {
+      const result = await addActivityService(activity);
+      return {activityId: result._id, totalSeat: activity.totalSeat};
+    }));
+    if(addedActivities){
+      const result = await addActivityStateService(addedActivities);
+      if(result){
+        res.status(200).json({
+          success: true,
+          data: result,
+          message: "Activity added successfully",
+        });
+      }
+    }
+    
   } catch (err: any) {
     res.status(400).json({
       success: false,

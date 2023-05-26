@@ -10,9 +10,9 @@ const getActivityByIdService = async (id: string) => {
   return activity;
 };
 
-// Single activity insertion
-const addActivityService = async (activity: Object) => {
-  const result = await ActivityModel.create(activity);
+// Multiple activity insertion
+const addActivityService = async (activities: any) => {
+  const result = await ActivityModel.create(activities);
   return result;
 };
 
