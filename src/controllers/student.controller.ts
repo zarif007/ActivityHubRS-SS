@@ -53,7 +53,7 @@ const addStudents = async (req: Request, res: Response, next: NextFunction) => {
     res.status(400).json({
       success: false,
       err: err.message,
-      message: "Error in getting student",
+      message: "Error in Adding student",
     });
   }
 };

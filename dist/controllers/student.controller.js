@@ -56,7 +56,7 @@ const addStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         res.status(400).json({
             success: false,
             err: err.message,
-            message: "Error in getting student",
+            message: "Error in Adding student",
         });
     }
 });

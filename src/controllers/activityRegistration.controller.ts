@@ -10,7 +10,7 @@ import {
   bookSeatByActivityStateIdService,
   getActivityStateByActivityIdService,
 } from "../services/activityState.service";
-import { getStudentByIdService } from "../services/student.services";
+import { getStudentByIdService, updateStudentById } from "../services/student.services";
 import { sendSms } from "../services/sms.service";
 import { ActivityInterface } from "../types/activity";
 
@@ -103,9 +103,9 @@ const downloadRegistrations = async (
       const worksheet = workbook.addWorksheet(registration.activity);
       worksheet.columns = headers;
       const headerRow = worksheet.getRow(1);
-      headerRow.font = { bold: true,size: 12 };
+      headerRow.font = { bold: true, size: 12 };
       headerRow.alignment = { vertical: "middle", horizontal: "center" };
-      
+
       worksheet.addRows(registration.students);
     })
 
@@ -134,72 +134,92 @@ const addRegistration = async (
   next: NextFunction
 ) => {
   try {
-    const { activityId, studentId, studentName, newPhoneNumber } = req.body;
-
+    const { activityId, studentId, newPhoneNumber } = req.body;
 
     // Fetching activity state for seat status
     const activityState = await getActivityStateByActivityIdService(activityId);
 
     // Checking if there is available seats in this activity
     if (activityState) {
+
       if (activityState.totalSeat <= activityState.bookedSeat) {
         res.status(400).json({
           success: false,
-          message: "No more seats available for this activity",
+          message: "No more seat available for this activity",
         });
         return;
       }
-      /*
-        Try/Catch for checking if this email enrolled to an activity or not
-        It saves one extra API call
-      */
-      try {
-        // Inserting registration to DB
-        const result = await addRegistrationService({ activityId, studentId });
-        // Incrementing booked seat
-        await bookSeatByActivityStateIdService(activityState._id.toHexString());
 
-        // Sending sms to student
-
-        const smsResponse: any = await sendSms(
-          newPhoneNumber,
-          `${studentName} has been successfully registered to ${activityState.activityId.name} activity`
-        );
-
-        res.status(200).json({
-          success: true,
-          data: { smsResponse }
-        });
-      } catch (err: any) {
+      const student = await getStudentByIdService(studentId);
+      const validGender = activityState.activityId.remarks.gender
+      if (!student) {
         res.status(400).json({
           success: false,
-          err: err.message,
-          message: "User with this email already enrolled to an activity",
+          message: "Student not found in this email",
         });
+        return;
       }
-    } else {
+      else if (validGender!="Both" && validGender!=student.gender) {
+        res.status(400).json({
+          success: false,
+          message:`This activity is only available for ${validGender}`
+        });
+        return;
+      }
+      
+        /*
+          Try/Catch for checking if this email enrolled to an activity or not
+          It saves one extra API call
+        */
+        try {
+
+          await updateStudentById(studentId, { phoneNumber: newPhoneNumber })
+          // Inserting registration to DB
+          await addRegistrationService({ activityId, studentId });
+          // Incrementing booked seat
+          await bookSeatByActivityStateIdService(activityState._id.toHexString());
+
+          // Sending sms to student
+
+          const smsResponse: any = await sendSms(
+            newPhoneNumber,
+            `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity. `
+          );
+
+          res.status(200).json({
+            success: true,
+            data: { smsResponse }
+          });
+        } catch (err: any) {
+          res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "User with this email already enrolled to an activity",
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "No activity found",
+        });
+        return;
+      }
+    } catch (err: any) {
       res.status(400).json({
         success: false,
-        message: "No activity found",
+        err: err.message,
+        message: "Error in Adding Registration",
       });
-      return;
     }
-  } catch (err: any) {
-    res.status(400).json({
-      success: false,
-      err: err.message,
-      message: "Error in Adding Registration",
-    });
-  }
-};
+  };
 
 
 
 
-export default {
-  getRegistrationByStudentId,
-  getRegistrations,
-  getRegistrationsByActivityId,
-  addRegistration,
-  downloadRegistrations
-};
+  export default {
+    getRegistrationByStudentId,
+    getRegistrations,
+    getRegistrationsByActivityId,
+    addRegistration,
+    downloadRegistrations
+  };

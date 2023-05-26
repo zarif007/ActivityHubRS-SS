@@ -15,7 +15,14 @@ const getStudentByIdService = async (id: String) => {
 };
 
 const addStudentsService = async (students: JSON) => {
-  const result = await StudentModel.insertMany(students);
+  const result = await StudentModel.create(students);
+  return result;
+};
+
+const updateStudentById = async (id: string,updateData:any) => {
+  const result = await StudentModel.findByIdAndUpdate(id, updateData, {
+    new: true,
+  });
   return result;
 };
 
@@ -24,4 +31,5 @@ export {
   getStudentsByEmailService,
   getStudentByIdService,
   addStudentsService,
+  updateStudentById
 };
