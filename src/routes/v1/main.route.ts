@@ -13,7 +13,7 @@ import SeminarRoute from './seminar.route'
 import AdminDashboardRoute from './adminDashboard.route'
 
 import { rateLimiter } from "../../middleware/rateLimiter";
-import { Admin } from "mongodb";
+
 
 /*   
     @route      ALL /api/v1/
