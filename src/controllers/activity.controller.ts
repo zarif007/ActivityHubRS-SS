@@ -63,7 +63,7 @@ const addActivity = async (req: Request, res: Response, next: NextFunction) => {
     }));
     const addedActivities = await Promise.all(newActivities.map(async(activity: any) => {
       const result = await addActivityService(activity);
-      return {activityId: result._id, totalSeat: activity.totalSeat};
+      return {activityId: result._id, totalSeat: activity.totalSeat,registrationDay:activity.registrationDay};
     }));
     if(addedActivities){
       const result = await addActivityStateService(addedActivities);

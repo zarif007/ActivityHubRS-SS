@@ -57,7 +57,7 @@ const addActivity = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         })));
         const addedActivities = yield Promise.all(newActivities.map((activity) => __awaiter(void 0, void 0, void 0, function* () {
             const result = yield (0, activity_service_1.addActivityService)(activity);
-            return { activityId: result._id, totalSeat: activity.totalSeat };
+            return { activityId: result._id, totalSeat: activity.totalSeat, registrationDay: activity.registrationDay };
         })));
         if (addedActivities) {
             const result = yield (0, activityState_service_1.addActivityStateService)(addedActivities);

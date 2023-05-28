@@ -128,25 +128,26 @@ const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
             else if (validGender != "Both" && validGender != student.gender) {
                 res.status(400).json({
                     success: false,
-                    message: `This activity is only available for ${validGender}`
+                    message: `This activity is only available for ${validGender}`,
                 });
                 return;
             }
             /*
-              Try/Catch for checking if this email enrolled to an activity or not
-              It saves one extra API call
-            */
+                Try/Catch for checking if this email enrolled to an activity or not
+                It saves one extra API call
+              */
             try {
-                yield (0, student_services_1.updateStudentById)(studentId, { phoneNumber: newPhoneNumber });
                 // Inserting registration to DB
                 yield (0, activityRegistration_service_1.addRegistrationService)({ activityId, studentId });
                 // Incrementing booked seat
                 yield (0, activityState_service_1.bookSeatByActivityStateIdService)(activityState._id.toHexString());
+                // Updating phone number 
+                yield (0, student_services_1.updateStudentById)(studentId, { phoneNumber: newPhoneNumber });
                 // Sending sms to student
                 const smsResponse = yield (0, sms_service_1.sendSms)(newPhoneNumber, `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity. `);
                 res.status(200).json({
                     success: true,
-                    data: { smsResponse }
+                    data: { smsResponse },
                 });
             }
             catch (err) {
@@ -178,5 +179,5 @@ exports.default = {
     getRegistrations,
     getRegistrationsByActivityId,
     addRegistration,
-    downloadRegistrations
+    downloadRegistrations,
 };

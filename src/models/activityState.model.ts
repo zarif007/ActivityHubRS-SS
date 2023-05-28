@@ -20,6 +20,10 @@ const ActivityStateSchema = new mongoose.Schema({
         default: 0,
         min: [0, "Seat number can not be less than 0"],
         max: [80, "Seat number can not be more than 80"],
+    },
+    registrationDay:{
+        type:Number,
+        default:1
     }
 }, {
     timestamps: true

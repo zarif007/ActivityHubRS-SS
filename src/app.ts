@@ -15,7 +15,14 @@ import mainRoute from './routes/v1/main.route';
 
 
 // Middlewares
-app.use(cors());
+const corsOptions = {
+    origin: "https://activityhubrs.vercel.app",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+
 // app.use(cookieParser());
 // app.use(compression());
 // app.use(bodyParser.json());
