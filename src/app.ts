@@ -15,7 +15,7 @@ import mainRoute from './routes/v1/main.route';
 
 
 // Middlewares
-const whitelist = ["https://activityhubrs.vercel.app","https://www.google.com"]
+const whitelist = ["https://activityhubrs.vercel.app"]
 const corsOptions = {
   origin: (origin:any, callback:any) => {
     if (whitelist.indexOf(origin) !== -1) {
@@ -25,7 +25,7 @@ const corsOptions = {
     }
   }
 }
-app.use(cors(corsOptions));
+// app.use();
 
 // app.use(cookieParser());
 // app.use(compression());
@@ -37,7 +37,7 @@ app.set('json spaces', 2)
 
 
 // main endpoints
-app.use("/api/v1", viewCount, mainRoute);
+app.use("/api/v1",cors(corsOptions),viewCount, mainRoute);
 app.all("*", (req, res) => {
     res.status(404).send("Sorry no api route found! Try <b style='color:red'>/api/v1/[endpoints]</b> instead");
 });
