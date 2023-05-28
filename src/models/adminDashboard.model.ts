@@ -9,6 +9,10 @@ const AdminDashboardSchema = new mongoose.Schema(
     registrationDay: {
       type: Number,
       default: 1
+    },
+    session: {
+      type: String,
+      unique: true,
     }
   },
   {

@@ -15,7 +15,7 @@ import mainRoute from './routes/v1/main.route';
 
 
 // Middlewares
-const whitelist = ["https://activityhubrs.vercel.app"]
+const whitelist = ["https://activityhubrs.vercel.app","localhost"]
 const corsOptions = {
   origin: (origin:any, callback:any) => {
     if (whitelist.indexOf(origin) !== -1) {
@@ -38,7 +38,7 @@ app.set('json spaces', 2)
 
 
 // main endpoints
-app.use("/api/v1",cors(corsOptions),viewCount, mainRoute);
+app.use("/api/v1",cors(),viewCount, mainRoute);
 app.all("*", (req, res) => {
     res.status(404).send("Sorry no api route found! Try <b style='color:red'>/api/v1/[endpoints]</b> instead");
 });
