@@ -10,7 +10,7 @@ import InstructorRoute from "./instructor.route";
 import ActivityRegistrationRoute from "./activityRegistration.route";
 import SmsRoute from "./sms.route";
 import SeminarRoute from './seminar.route'
-// import AdminDashboardRoute from './adminDashboard.route'
+import AdminDashboardRoute from './adminDashboard.route'
 
 import { rateLimiter } from "../../middleware/rateLimiter";
 
@@ -58,6 +58,6 @@ router.use("/sms", SmsRoute);
 router.use('/seminar',SeminarRoute)
 
 
-// router.use('/admin',AdminDashboardRoute)
+router.use('/admin',AdminDashboardRoute)
 
 export default router;
