@@ -15,9 +15,16 @@ import mainRoute from './routes/v1/main.route';
 
 
 // Middlewares
+const whitelist = ["https://activityhubrs.vercel.app","https://www.google.com"]
 const corsOptions = {
-    origin: ["https://activityhubrs.vercel.app","https://www.google.com"],
-};
+  origin: (origin:any, callback:any) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error())
+    }
+  }
+}
 app.use(cors(corsOptions));
 
 // app.use(cookieParser());
