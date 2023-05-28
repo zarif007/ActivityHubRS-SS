@@ -33,7 +33,7 @@ app.use(body_parser_1.default.json({ limit: '200mb' }));
 // app.use(express.urlencoded({limit: '200mb', extended: true}));
 app.set('json spaces', 2);
 // main endpoints
-app.use("/api/v1", cors(), viewCount_1.default, main_route_1.default);
+app.use("/api/v1", cors(corsOptions), viewCount_1.default, main_route_1.default);
 app.all("*", (req, res) => {
     res.status(404).send("Sorry no api route found! Try <b style='color:red'>/api/v1/[endpoints]</b> instead");
 });
