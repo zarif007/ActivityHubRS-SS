@@ -13,7 +13,7 @@ const instructor_route_1 = __importDefault(require("./instructor.route"));
 const activityRegistration_route_1 = __importDefault(require("./activityRegistration.route"));
 const sms_route_1 = __importDefault(require("./sms.route"));
 const seminar_route_1 = __importDefault(require("./seminar.route"));
-const adminDashboard_route_1 = __importDefault(require("./adminDashboard.route"));
+// import AdminDashboardRoute from './adminDashboard.route'
 const rateLimiter_1 = require("../../middleware/rateLimiter");
 /*
     @route      ALL /api/v1/
@@ -49,5 +49,5 @@ router.use("/instructor", instructor_route_1.default);
 // 
 router.use("/sms", sms_route_1.default);
 router.use('/seminar', seminar_route_1.default);
-router.use('/admin', adminDashboard_route_1.default);
+// router.use('/admin',AdminDashboardRoute)
 exports.default = router;
