@@ -21,7 +21,8 @@ const corsOptions = {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
-      callback(new Error())
+        const msg = "Unauthorized access to API"
+      callback(new Error(msg), false)
     }
   }
 }

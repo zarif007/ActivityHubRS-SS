@@ -20,7 +20,8 @@ const corsOptions = {
             callback(null, true);
         }
         else {
-            callback(new Error());
+            const msg = "Unauthorized access to API";
+            callback(new Error(msg), false);
         }
     }
 };
