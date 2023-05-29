@@ -40,6 +40,7 @@ const StudentSchema = new mongoose.Schema<StudentInterface>({
     },
     engSection: {
         type: String,
+        default: ""
     },
 
 }, {

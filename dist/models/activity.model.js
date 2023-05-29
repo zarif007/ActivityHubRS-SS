@@ -13,7 +13,7 @@ const ActivitySchema = new mongoose_1.default.Schema({
     },
     image: {
         type: String,
-        default: "https://i.ibb.co/D8hjBqB/5.png"
+        default: "https://i.imgur.com/6z2hdx6.png"
         // required: [true, "Image is required"],
     },
     description: {
@@ -58,6 +58,11 @@ const ActivitySchema = new mongoose_1.default.Schema({
     instructor: {
         type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Instructor',
     },
+    type: {
+        type: String,
+        default: "General",
+        enum: ["General", "Civic"],
+    }
 }, {
     timestamps: true,
 });

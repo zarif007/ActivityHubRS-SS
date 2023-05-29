@@ -44,6 +44,7 @@ const StudentSchema = new mongoose_1.default.Schema({
     },
     engSection: {
         type: String,
+        default: ""
     },
 }, {
     timestamps: true

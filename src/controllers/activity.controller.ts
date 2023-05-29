@@ -1,5 +1,5 @@
 import { convertToObjectId } from "./../utils/utility";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, urlencoded } from "express";
 import {
   addActivityService,
   getActivitiesService,
@@ -53,21 +53,22 @@ const getActivityById = async (
 const addActivity = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { activities } = req.body;
-    
+
     // when admin dashboard is ready, will change this
-    
-    const newActivities = await Promise.all(activities.map(async(activity: any) => {
+    const newActivities = await Promise.all(activities.map(async (activity: any) => {
+
       const instructor = await getInstructorService({ "shortName": activity.instructor });
+
       activity.instructor = instructor[0]._id;
       return activity;
     }));
-    const addedActivities = await Promise.all(newActivities.map(async(activity: any) => {
+    const addedActivities = await Promise.all(newActivities.map(async (activity: any) => {
       const result = await addActivityService(activity);
-      return {activityId: result._id, totalSeat: activity.totalSeat,registrationDay:activity.registrationDay};
+      return { activityId: result._id, totalSeat: activity.totalSeat, registrationDay: activity.registrationDay };
     }));
-    if(addedActivities){
+    if (addedActivities) {
       const result = await addActivityStateService(addedActivities);
-      if(result){
+      if (result) {
         res.status(200).json({
           success: true,
           data: result,
@@ -75,7 +76,7 @@ const addActivity = async (req: Request, res: Response, next: NextFunction) => {
         });
       }
     }
-    
+
   } catch (err: any) {
     res.status(400).json({
       success: false,
