@@ -13,6 +13,7 @@ const student_services_1 = require("../services/student.services");
 const getStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const students = yield (0, student_services_1.getStudentsService)();
+        console.log(req.ip);
         res.status(200).json({
             success: true,
             data: students,
@@ -29,7 +30,15 @@ const getStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 const getStudentsByEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email } = req.params;
-        const student = yield (0, student_services_1.getStudentsByEmailService)(email);
+        let student = yield (0, student_services_1.getStudentsByEmailService)(email);
+        if (student) {
+            const phoneNumber = student.phoneNumber.replace(/(\d{2})\d{5}(\d{4})/, '$1*****$2');
+            res.status(200).json({
+                success: true,
+                data: Object.assign(Object.assign({}, student.toObject()), { phoneNumber }),
+            });
+            return;
+        }
         res.status(200).json({
             success: true,
             data: student,
@@ -45,7 +54,7 @@ const getStudentsByEmail = (req, res, next) => __awaiter(void 0, void 0, void 0,
 });
 const addStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const students = req.body;
+        const { students } = req.body;
         const result = yield (0, student_services_1.addStudentsService)(students);
         res.status(200).json({
             success: true,

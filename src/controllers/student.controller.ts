@@ -8,6 +8,7 @@ import {
 const getStudents = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const students = await getStudentsService();
+    console.log(req.ip)
     res.status(200).json({
       success: true,
       data: students,
@@ -28,7 +29,15 @@ const getStudentsByEmail = async (
 ) => {
   try {
     const { email } = req.params;
-    const student = await getStudentsByEmailService(email);
+    let student = await getStudentsByEmailService(email);
+    if (student){ 
+      const phoneNumber = student.phoneNumber.replace(/(\d{2})\d{5}(\d{4})/, '$1*****$2');
+      res.status(200).json({
+        success: true,
+        data: { ...student.toObject() , phoneNumber },  
+      });
+      return;
+    }
     res.status(200).json({
       success: true,
       data: student,
@@ -43,7 +52,7 @@ const getStudentsByEmail = async (
 };
 const addStudents = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const students = req.body;
+    const { students } = req.body;
     const result = await addStudentsService(students);
     res.status(200).json({
       success: true,
