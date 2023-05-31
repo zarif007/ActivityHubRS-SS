@@ -58,6 +58,19 @@ const checkActivityStateStatusService = async (query: object) => {
   return result;
 };
 
+const overallSeatStatusService = async () => {
+  const result = await ActivityStateModel.aggregate([
+    {
+      $group: {
+        _id: new Date().toLocaleString(),
+        totalSeat: { $sum: '$totalSeat' },
+        totalBookedSeat: { $sum: '$bookedSeat' }
+      }
+    }
+  ])
+  return result
+}
+
 export {
   getActivityStateService,
   getActivityStateByActivityIdService,
@@ -66,4 +79,5 @@ export {
   bookSeatByActivityStateIdService,
   // unbookSeatActivityStateService,
   checkActivityStateStatusService,
+  overallSeatStatusService,
 };

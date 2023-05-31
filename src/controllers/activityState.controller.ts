@@ -5,6 +5,7 @@ import {
   checkActivityStateStatusService,
   getActivityStateByActivityIdService,
   getActivityStateService,
+  overallSeatStatusService,
   updateActivityStateByActivityIdService,
 } from "../services/activityState.service";
 
@@ -109,10 +110,28 @@ const checkActivityStatus = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
+const overallSeatStatus = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    
+    const result = await overallSeatStatusService()
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in Getting seat status",
+    });
+  }
+};
+
 export default {
   getActivityState,
   getActivityStateByActivityId,
   addActivityState,
   updateActivityState,
-  checkActivityStatus
+  checkActivityStatus,
+  overallSeatStatus
 };

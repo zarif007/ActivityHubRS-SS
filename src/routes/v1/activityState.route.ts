@@ -14,5 +14,6 @@ router
   .get(ActivityStateController.getActivityStateByActivityId)
   .put(ActivityStateController.updateActivityState);
 
+router.route('/seatStatus/all').get(ActivityStateController.overallSeatStatus)
 
 export default router;
