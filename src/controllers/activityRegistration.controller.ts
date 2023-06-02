@@ -172,7 +172,7 @@ const addRegistration = async (
         */
       try {
         // Inserting registration to DB
-        await addRegistrationService({ activityId, studentId });
+        const registration = await addRegistrationService({ activityId, studentId });
         // Incrementing booked seat
         await bookSeatByActivityStateIdService(activityState._id.toHexString());
         // Updating phone number 
@@ -186,7 +186,7 @@ const addRegistration = async (
 
         res.status(200).json({
           success: true,
-          data: { smsResponse },
+          data: { smsResponse, registration },
         });
       } catch (err: any) {
         res.status(400).json({
