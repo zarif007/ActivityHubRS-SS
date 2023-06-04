@@ -19,6 +19,11 @@ const ActivityRegistrationSchema = new mongoose_1.default.Schema({
         required: [true, "Activity is required"],
         trim: true,
     },
+    paymentStatus: {
+        type: String,
+        default: "Unpaid",
+        enum: ["Paid", "Unpaid", "Hold"],
+    },
     session: {
         type: String,
         default: "Summer2023",
