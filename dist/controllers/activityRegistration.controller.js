@@ -144,7 +144,7 @@ const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
                 // Updating phone number 
                 yield (0, student_services_1.updateStudentById)(studentId, { phoneNumber: newPhoneNumber });
                 // Sending sms to student
-                const smsResponse = yield (0, sms_service_1.sendSms)(newPhoneNumber, `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity. `);
+                const smsResponse = yield (0, sms_service_1.sendSms)(newPhoneNumber, `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity.  `);
                 res.status(200).json({
                     success: true,
                     data: { smsResponse, registration },

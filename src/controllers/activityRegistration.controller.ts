@@ -181,7 +181,7 @@ const addRegistration = async (
         // Sending sms to student
         const smsResponse: any = await sendSms(
           newPhoneNumber,
-          `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity. `
+          `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity.  `
         );
 
         res.status(200).json({
