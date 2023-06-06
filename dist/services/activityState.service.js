@@ -18,7 +18,6 @@ const getActivityStateService = (query) => __awaiter(void 0, void 0, void 0, fun
 exports.getActivityStateService = getActivityStateService;
 const getActivityStateByActivityIdService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const filter = { activityId: id };
-    console.log(id);
     const activityState = yield activityState_model_1.ActivityStateModel.findOne(filter)
         .populate("activityId")
         .populate({

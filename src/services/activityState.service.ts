@@ -11,7 +11,6 @@ const getActivityStateService = async (query: object) => {
 
 const getActivityStateByActivityIdService = async (id: string) => {
   const filter = { activityId: id };
-  console.log(id);
   const activityState = await ActivityStateModel.findOne(filter)
     .populate<{activityId:ActivityInterface}>("activityId")
     .populate({
