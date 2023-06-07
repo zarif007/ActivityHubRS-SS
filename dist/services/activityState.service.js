@@ -61,7 +61,7 @@ const overallSeatStatusService = () => __awaiter(void 0, void 0, void 0, functio
     const result = yield activityState_model_1.ActivityStateModel.aggregate([
         {
             $group: {
-                _id: new Date().toLocaleString(),
+                _id: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }),
                 totalSeat: { $sum: '$totalSeat' },
                 totalBookedSeat: { $sum: '$bookedSeat' }
             }
