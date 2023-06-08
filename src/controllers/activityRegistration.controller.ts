@@ -100,9 +100,9 @@ const downloadRegistrations = async (
       { header: "Phone Number", key: "phoneNumber", width: 15 },
       { header: "Bng Section", key: "bngSection", width: 15 },
     ];
-
-    registrations.map((registration: any) => {
       let x = 1
+    registrations.map((registration: any) => {
+      
       const Style = { font: { bold: true, size: 12 },alignment: { vertical: "middle", horizontal: "center" } };
       const worksheet = workbook.addWorksheet(`${x} ${registration.activity}`);
       x++;
