@@ -102,8 +102,10 @@ const downloadRegistrations = async (
     ];
 
     registrations.map((registration: any) => {
+      let x = 1
       const Style = { font: { bold: true, size: 12 },alignment: { vertical: "middle", horizontal: "center" } };
-      const worksheet = workbook.addWorksheet(registration.activity);
+      const worksheet = workbook.addWorksheet(`${x} ${registration.activity}`);
+      x++;
       worksheet.columns = headers;
       const headerRow = worksheet.getRow(1);
       headerRow.font = { bold: true, size: 12 };
