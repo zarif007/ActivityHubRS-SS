@@ -11,7 +11,6 @@ const getActivityStateService = async (query: object) => {
 
 const getActivityStateByActivityIdService = async (id: string) => {
   const filter = { activityId: id };
-  console.log(id);
   const activityState = await ActivityStateModel.findOne(filter)
     .populate<{activityId:ActivityInterface}>("activityId")
     .populate({
@@ -63,7 +62,7 @@ const overallSeatStatusService = async () => {
   const result = await ActivityStateModel.aggregate([
     {
       $group: {
-        _id: new Date().toLocaleString(),
+        _id: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }),
         totalSeat: { $sum: '$totalSeat' },
         totalBookedSeat: { $sum: '$bookedSeat' }
       }

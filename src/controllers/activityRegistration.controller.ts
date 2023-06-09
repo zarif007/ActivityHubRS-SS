@@ -94,21 +94,29 @@ const downloadRegistrations = async (
     const workbook = new exceljs.Workbook();
     const headers = [
       { header: "SL", key: "sl", width: 5 },
-      { header: "Name", key: "name", width: 35 },
       { header: "ID", key: "studentId", width: 12 },
+      { header: "Name", key: "name", width: 35 },
       { header: "Email", key: "email", width: 30 },
       { header: "Phone Number", key: "phoneNumber", width: 15 },
       { header: "Bng Section", key: "bngSection", width: 15 },
     ];
-
+      let x = 1
     registrations.map((registration: any) => {
-      const worksheet = workbook.addWorksheet(registration.activity);
+      
+      const Style = { font: { bold: true, size: 12 },alignment: { vertical: "middle", horizontal: "center" } };
+      const worksheet = workbook.addWorksheet(`${x} ${registration.activity}`);
+      x++;
       worksheet.columns = headers;
       const headerRow = worksheet.getRow(1);
       headerRow.font = { bold: true, size: 12 };
       headerRow.alignment = { vertical: "middle", horizontal: "center" };
 
+     
       worksheet.addRows(registration.students);
+      worksheet.insertRow(1,[registration.activity]);
+      worksheet.mergeCells('A1:F1');
+      const mergedCell = worksheet.getCell('A1');
+      mergedCell.style = { font: { bold: true, size: 12 },alignment: { vertical: "middle", horizontal: "center" } };
     });
 
     res.setHeader(
@@ -181,7 +189,7 @@ const addRegistration = async (
         // Sending sms to student
         const smsResponse: any = await sendSms(
           newPhoneNumber,
-          `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity. `
+          `${student.name} has been successfully enrolled into ${activityState.activityId.name} activity.  `
         );
 
         res.status(200).json({
