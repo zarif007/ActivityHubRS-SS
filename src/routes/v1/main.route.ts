@@ -9,11 +9,11 @@ import ActivityStateRoute from "./activityState.route";
 import InstructorRoute from "./instructor.route";
 import ActivityRegistrationRoute from "./activityRegistration.route";
 import SmsRoute from "./sms.route";
-import SeminarRoute from './seminar.route'
-import AdminDashboardRoute from './adminDashboard.route'
+import SeminarRoute from "./seminar.route";
+import WorkshopRoute from "./workshop.route";
+import AdminDashboardRoute from "./adminDashboard.route";
 
 import { rateLimiter } from "../../middleware/rateLimiter";
-
 
 /*   
     @route      ALL /api/v1/
@@ -51,13 +51,13 @@ router.use("/registration", rateLimiter, ActivityRegistrationRoute);
 */
 router.use("/instructor", InstructorRoute);
 
-
-// 
+//
 router.use("/sms", SmsRoute);
 
-router.use('/seminar',SeminarRoute)
+router.use("/seminar", SeminarRoute);
 
+router.use("/workshop", WorkshopRoute);
 
-router.use('/admin',AdminDashboardRoute)
+router.use("/admin", AdminDashboardRoute);
 
 export default router;

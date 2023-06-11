@@ -82,9 +82,11 @@ const downloadRegistrations = (req, res, next) => __awaiter(void 0, void 0, void
             { header: "Phone Number", key: "phoneNumber", width: 15 },
             { header: "Bng Section", key: "bngSection", width: 15 },
         ];
+        let x = 1;
         registrations.map((registration) => {
             const Style = { font: { bold: true, size: 12 }, alignment: { vertical: "middle", horizontal: "center" } };
-            const worksheet = workbook.addWorksheet(registration.activity);
+            const worksheet = workbook.addWorksheet(`${x} ${registration.activity}`);
+            x++;
             worksheet.columns = headers;
             const headerRow = worksheet.getRow(1);
             headerRow.font = { bold: true, size: 12 };

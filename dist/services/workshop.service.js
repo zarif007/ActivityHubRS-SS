@@ -1,0 +1,23 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.addWorkshopService = exports.getWorkshopService = void 0;
+const workshop_model_1 = require("../models/workshop.model");
+const getWorkshopService = () => __awaiter(void 0, void 0, void 0, function* () {
+    const workshops = yield workshop_model_1.WorkshopModel.find({});
+    return workshops;
+});
+exports.getWorkshopService = getWorkshopService;
+const addWorkshopService = (seminar) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield workshop_model_1.WorkshopModel.create(seminar);
+    return result;
+});
+exports.addWorkshopService = addWorkshopService;
