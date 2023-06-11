@@ -8,4 +8,8 @@ router
   .get(workshopController.getWorkshop)
   .post(workshopController.addWorkshop);
 
+router
+  .route("/register/:workshopId")
+  .post(workshopController.registerStudentToWorkshop);
+
 export default router;

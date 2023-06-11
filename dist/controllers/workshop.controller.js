@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const workshop_service_1 = require("../services/workshop.service");
 const getWorkshop = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const workshop = yield (0, workshop_service_1.getWorkshopService)();
+        const { _id } = req.query;
+        const workshop = yield (0, workshop_service_1.getWorkshopService)(_id ? { _id } : {});
         res.status(200).json({
             success: true,
             data: workshop,
@@ -43,4 +44,26 @@ const addWorkshop = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         });
     }
 });
-exports.default = { getWorkshop, addWorkshop };
+const registerStudentToWorkshop = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { workshopId } = req.params;
+        const { studentId } = req.body;
+        // Checking if this workshop exists
+        yield (0, workshop_service_1.getWorkshopService)({ _id: workshopId });
+        // Register student
+        const result = yield (0, workshop_service_1.registerStudentToWorkshopService)(workshopId, studentId);
+        console.log(result);
+        res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in Registering to this workshop",
+        });
+    }
+});
+exports.default = { getWorkshop, addWorkshop, registerStudentToWorkshop };

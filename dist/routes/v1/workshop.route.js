@@ -10,4 +10,7 @@ router
     .route("/")
     .get(workshop_controller_1.default.getWorkshop)
     .post(workshop_controller_1.default.addWorkshop);
+router
+    .route("/register/:workshopId")
+    .post(workshop_controller_1.default.registerStudentToWorkshop);
 exports.default = router;

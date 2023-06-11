@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addWorkshopService = exports.getWorkshopService = void 0;
+exports.registerStudentToWorkshopService = exports.addWorkshopService = exports.getWorkshopService = void 0;
 const workshop_model_1 = require("../models/workshop.model");
-const getWorkshopService = () => __awaiter(void 0, void 0, void 0, function* () {
-    const workshops = yield workshop_model_1.WorkshopModel.find({});
+const getWorkshopService = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const workshops = yield workshop_model_1.WorkshopModel.find(query);
     return workshops;
 });
 exports.getWorkshopService = getWorkshopService;
@@ -21,3 +21,6 @@ const addWorkshopService = (seminar) => __awaiter(void 0, void 0, void 0, functi
     return result;
 });
 exports.addWorkshopService = addWorkshopService;
+const registerStudentToWorkshopService = (workshopId, studentId) => __awaiter(void 0, void 0, void 0, function* () {
+});
+exports.registerStudentToWorkshopService = registerStudentToWorkshopService;

@@ -1,14 +1,26 @@
-import { WorkshopModel } from "../models/workshop.model"
+import { WorkshopModel } from "../models/workshop.model";
 
-
-const getWorkshopService = async ()=>{
-    const workshops = await WorkshopModel.find({})
-    return workshops
-}
+const getWorkshopService = async (query: Object) => {
+  const workshops = await WorkshopModel.find(query);
+  return workshops;
+};
 
 const addWorkshopService = async (seminar: Object) => {
-    const result = await WorkshopModel.create(seminar);
-    return result;
-}
+  const result = await WorkshopModel.create(seminar);
+  return result;
+};
 
-export { getWorkshopService, addWorkshopService }
+
+
+const registerStudentToWorkshopService = async (
+  workshopId: string,
+  studentId: string
+) => {
+    
+};
+
+export {
+  getWorkshopService,
+  addWorkshopService,
+  registerStudentToWorkshopService,
+};
