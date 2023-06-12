@@ -49,8 +49,15 @@ const registerStudentToWorkshop = async (req: Request, res: Response, next: Next
     // await getWorkshopService({ _id: workshopId })
 
     // Register student
-    const result = await registerStudentToWorkshopService(workshopId, studentId);
-    console.log(result)
+    const result: any = await registerStudentToWorkshopService(workshopId, studentId);
+    if(typeof result === 'string') {
+      res.status(400).json({
+        success: false,
+        err: result,
+        message: result,
+      });
+      return;
+    }
     
     res.status(200).json({
       success: true,

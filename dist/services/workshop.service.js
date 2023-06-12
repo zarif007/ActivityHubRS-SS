@@ -22,5 +22,15 @@ const addWorkshopService = (seminar) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.addWorkshopService = addWorkshopService;
 const registerStudentToWorkshopService = (workshopId, studentId) => __awaiter(void 0, void 0, void 0, function* () {
+    const workshop = yield workshop_model_1.WorkshopModel.findById(workshopId);
+    if (!workshop) {
+        return "Workshop not found";
+    }
+    if (workshop.registeredStudents.includes(studentId)) {
+        return "Student already registered";
+    }
+    workshop.registeredStudents.push(studentId);
+    const result = yield workshop.save();
+    return result;
 });
 exports.registerStudentToWorkshopService = registerStudentToWorkshopService;
