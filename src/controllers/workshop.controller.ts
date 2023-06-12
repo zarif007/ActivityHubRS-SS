@@ -45,7 +45,8 @@ const registerStudentToWorkshop = async (req: Request, res: Response, next: Next
     const { studentId } = req.body;
 
     // Checking if this workshop exists
-    await getWorkshopService({ _id: workshopId })
+    // no need to check it here, we can check it in the service
+    // await getWorkshopService({ _id: workshopId })
 
     // Register student
     const result = await registerStudentToWorkshopService(workshopId, studentId);

@@ -16,7 +16,16 @@ const registerStudentToWorkshopService = async (
   workshopId: string,
   studentId: string
 ) => {
-    
+  const workshop = await WorkshopModel.findOne({ _id: workshopId });
+  if (!workshop) {
+    return "Workshop not found";
+  }
+  if (workshop.registeredStudents.includes(studentId)) {
+    return "Student already registered";
+  }
+  workshop.registeredStudents.push(studentId);
+  const result = await workshop.save();
+  return result;
 };
 
 export {
