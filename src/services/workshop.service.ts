@@ -1,4 +1,6 @@
+import { ObjectId } from "mongodb";
 import { WorkshopModel } from "../models/workshop.model";
+import { convertToObjectId } from "../utils/utility";
 
 const getWorkshopService = async (query: Object) => {
   const workshops = await WorkshopModel.find(query);
@@ -16,7 +18,7 @@ const registerStudentToWorkshopService = async (
   workshopId: string,
   studentId: string
 ) => {
-  const workshop = await WorkshopModel.findOne({ _id: workshopId });
+  const workshop = await WorkshopModel.findById(workshopId);
   if (!workshop) {
     return "Workshop not found";
   }
