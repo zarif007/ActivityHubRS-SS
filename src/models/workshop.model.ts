@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { WorkshopInterface } from "../types/workshop";
 
-const WorkshopSchema = new mongoose.Schema(
+const WorkshopSchema = new mongoose.Schema<WorkshopInterface>(
     {
         title: {
             type: String,

@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { WorkshopModel } from "../models/workshop.model";
 import { convertToObjectId } from "../utils/utility";
+import { WorkshopInterface } from "../types/workshop";
 
 const getWorkshopService = async (query: Object) => {
   const workshops = await WorkshopModel.find(query);
@@ -24,6 +25,9 @@ const registerStudentToWorkshopService = async (
   }
   if (workshop.registeredStudents.includes(studentId)) {
     return "Student already registered";
+  }
+  if (workshop.registeredStudents.length === workshop.seatLimit) {
+    return "No seat available for this workshop";
   }
   workshop.registeredStudents.push(studentId);
   const result = await workshop.save();
