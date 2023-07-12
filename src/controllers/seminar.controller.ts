@@ -6,7 +6,8 @@ import { Request, Response, NextFunction } from "express";
 
 const getSeminar = async (req: Request, res: Response) => {
   try {
-    const seminar = await getSeminarService();
+    const { _id } = req.query;
+    const seminar = await getSeminarService(_id ? { _id } : {});
     res.status(200).json({
       success: true,
       data: seminar,
