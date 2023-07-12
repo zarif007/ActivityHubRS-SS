@@ -8,7 +8,7 @@ router
   .get(seminarController.getSeminar)
   .post(seminarController.addSeminar);
 router
-  .route("/register/:workshopId")
+  .route("/register/:seminarId")
   .post(seminarController.registerStudentToSeminar);
 
 export default router;
