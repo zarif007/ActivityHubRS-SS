@@ -33,6 +33,18 @@ const SeminarSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    slot: {
+      type: Number,
+      default: 1,
+    },
+    type:{
+      type: String,
+      default: "mandatory",
+    },
+    time: {
+      type: String,
+      default: "To Be Announced",
+    },
   },
   {
     timestamps: true,

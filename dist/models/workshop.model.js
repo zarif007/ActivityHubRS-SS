@@ -17,6 +17,10 @@ const WorkshopSchema = new mongoose_1.default.Schema({
     image: {
         type: String
     },
+    slot: {
+        type: Number,
+        default: 1,
+    },
     venue: {
         type: String,
         default: 'Markuli Hall'

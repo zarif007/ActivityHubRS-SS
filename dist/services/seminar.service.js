@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addSeminarService = exports.getSeminarService = void 0;
+exports.registerStudentToSeminarService = exports.addSeminarService = exports.getSeminarService = void 0;
 const seminar_model_1 = require("../models/seminar.model");
-const getSeminarService = () => __awaiter(void 0, void 0, void 0, function* () {
-    const seminars = yield seminar_model_1.SeminarModel.find({});
+const getSeminarService = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const seminars = yield seminar_model_1.SeminarModel.find(query);
     return seminars;
 });
 exports.getSeminarService = getSeminarService;
@@ -21,3 +21,19 @@ const addSeminarService = (seminar) => __awaiter(void 0, void 0, void 0, functio
     return result;
 });
 exports.addSeminarService = addSeminarService;
+const registerStudentToSeminarService = (seminarId, studentId) => __awaiter(void 0, void 0, void 0, function* () {
+    const seminar = yield seminar_model_1.SeminarModel.findById(seminarId);
+    if (!seminar) {
+        return "Seminar not found";
+    }
+    if (seminar.registeredStudents.includes(studentId)) {
+        return "Student already registered";
+    }
+    if (seminar.registeredStudents.length === seminar.seatLimit) {
+        return "No seat available for this seminar";
+    }
+    seminar.registeredStudents.push(studentId);
+    const result = yield seminar.save();
+    return result;
+});
+exports.registerStudentToSeminarService = registerStudentToSeminarService;

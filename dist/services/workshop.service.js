@@ -29,6 +29,9 @@ const registerStudentToWorkshopService = (workshopId, studentId) => __awaiter(vo
     if (workshop.registeredStudents.includes(studentId)) {
         return "Student already registered";
     }
+    if (workshop.registeredStudents.length === workshop.seatLimit) {
+        return "No seat available for this workshop";
+    }
     workshop.registeredStudents.push(studentId);
     const result = yield workshop.save();
     return result;

@@ -53,7 +53,7 @@ const registerStudentToWorkshop = (req, res, next) => __awaiter(void 0, void 0, 
         // await getWorkshopService({ _id: workshopId })
         // Register student
         const result = yield (0, workshop_service_1.registerStudentToWorkshopService)(workshopId, studentId);
-        if (typeof result === 'string') {
+        if (typeof result === "string") {
             res.status(400).json({
                 success: false,
                 err: result,

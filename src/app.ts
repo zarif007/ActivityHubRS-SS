@@ -12,14 +12,14 @@ import viewCount from "./middleware/viewCount";
 import mainRoute from "./routes/v1/main.route";
 
 // Middleware
-const whitelist = ["https://activityhubrs.vercel.app"];
+const whitelist = ["https://activityhubrs.vercel.app","activityhubrs.vercel.app"];
 const corsOptions = {
   origin: (origin: any, callback: any) => {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      const msg = "Unauthorized access to API";
-      callback(new Error(msg), false);
+      const msg = "⚡⚡⚡Unauthorized access to API ⚡⚡⚡";
+      callback(msg, false);
     }
   },
 };
@@ -33,7 +33,7 @@ app.use(bodyParser.json({ limit: "200mb" }));
 app.set("json spaces", 2);
 
 // main endpoints
-app.use("/api/v1", cors(), viewCount, mainRoute);
+app.use("/api/v1", cors(corsOptions), viewCount, mainRoute);
 app.all("*", (req, res) => {
   res
     .status(404)

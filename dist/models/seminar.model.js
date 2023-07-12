@@ -8,32 +8,48 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const SeminarSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     keySpeaker: {
         type: String,
-        required: true
+        required: true,
     },
     image: {
-        type: String
+        type: String,
     },
     venue: {
         type: String,
-        default: 'Shalla'
+        default: "Shalla",
     },
     details: {
         type: String,
-        default: 'To Be Announced'
+        default: "To Be Announced",
+    },
+    seatLimit: {
+        type: Number,
+        default: 1600,
     },
     date: {
         type: String,
-        default: 'To Be Announced'
+        default: "To Be Announced",
     },
     registeredStudents: {
         type: [String],
-        default: []
-    }
+        default: [],
+    },
+    slot: {
+        type: Number,
+        default: 1,
+    },
+    type: {
+        type: String,
+        default: "mandatory",
+    },
+    time: {
+        type: String,
+        default: "To Be Announced",
+    },
 }, {
-    timestamps: true
+    timestamps: true,
 });
 exports.SeminarModel = mongoose_1.default.model("Seminar", SeminarSchema);
