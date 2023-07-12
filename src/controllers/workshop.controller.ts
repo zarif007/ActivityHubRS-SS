@@ -1,14 +1,14 @@
 import {
-    getWorkshopService,
-    addWorkshopService,
-    registerStudentToWorkshopService,
+  getWorkshopService,
+  addWorkshopService,
+  registerStudentToWorkshopService,
 } from "../services/workshop.service";
 import { Request, Response, NextFunction } from "express";
 
 const getWorkshop = async (req: Request, res: Response) => {
   try {
     const { _id } = req.query;
-    const workshop = await getWorkshopService(_id ? { _id }: {});
+    const workshop = await getWorkshopService(_id ? { _id } : {});
     res.status(200).json({
       success: true,
       data: workshop,
@@ -39,7 +39,11 @@ const addWorkshop = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const registerStudentToWorkshop = async (req: Request, res: Response, next: NextFunction) => {
+const registerStudentToWorkshop = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { workshopId } = req.params;
     const { studentId } = req.body;
@@ -49,8 +53,11 @@ const registerStudentToWorkshop = async (req: Request, res: Response, next: Next
     // await getWorkshopService({ _id: workshopId })
 
     // Register student
-    const result: any = await registerStudentToWorkshopService(workshopId, studentId);
-    if(typeof result === 'string') {
+    const result: any = await registerStudentToWorkshopService(
+      workshopId,
+      studentId
+    );
+    if (typeof result === "string") {
       res.status(400).json({
         success: false,
         err: result,
@@ -58,7 +65,7 @@ const registerStudentToWorkshop = async (req: Request, res: Response, next: Next
       });
       return;
     }
-    
+
     res.status(200).json({
       success: true,
       data: result,
@@ -70,7 +77,6 @@ const registerStudentToWorkshop = async (req: Request, res: Response, next: Next
       message: "Error in Registering to this workshop",
     });
   }
-  
-}
+};
 
 export default { getWorkshop, addWorkshop, registerStudentToWorkshop };

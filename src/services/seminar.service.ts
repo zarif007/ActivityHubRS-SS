@@ -10,4 +10,26 @@ const addSeminarService = async (seminar: Object) => {
   return result;
 };
 
-export { getSeminarService, addSeminarService };
+const registerStudentToSeminarService = async (
+  seminarId: string,
+  studentId: string
+) => {
+  const seminar = await SeminarModel.findById(seminarId);
+  if (!seminar) {
+    return "Seminar not found";
+  }
+  if (seminar.registeredStudents.includes(studentId)) {
+    return "Student already registered";
+  }
+  if (seminar.registeredStudents.length === seminar.seatLimit) {
+    return "No seat available for this seminar";
+  }
+  seminar.registeredStudents.push(studentId);
+  const result = await seminar.save();
+  return result;
+};
+export {
+  getSeminarService,
+  addSeminarService,
+  registerStudentToSeminarService,
+};
