@@ -3,6 +3,7 @@ import {
   addStudentsService,
   getStudentsByEmailService,
   getStudentsService,
+  updateManyStudentsService,
 } from "../services/student.services";
 
 const getStudents = async (req: Request, res: Response, next: NextFunction) => {
@@ -30,11 +31,11 @@ const getStudentsByEmail = async (
   try {
     const { email } = req.params;
     let student = await getStudentsByEmailService(email);
-    if (student){ 
+    if (student) {
       const phoneNumber = student.phoneNumber.replace(/(\d{2})\d{5}(\d{4})/, '$1*****$2');
       res.status(200).json({
         success: true,
-        data: { ...student.toObject() , phoneNumber },  
+        data: { ...student.toObject(), phoneNumber },
       });
       return;
     }
@@ -67,8 +68,26 @@ const addStudents = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default {
-  getStudents,
-  getStudentsByEmail,
-  addStudents,
+const updateStudents = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { students, updatedQuery } = req.body;
+    const result = await updateManyStudentsService(students, updatedQuery);
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in Updating student",
+    });
+  }
 };
+
+    export default {
+      getStudents,
+      getStudentsByEmail,
+      addStudents,
+      updateStudents
+    }

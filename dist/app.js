@@ -13,7 +13,10 @@ const viewCount_1 = __importDefault(require("./middleware/viewCount"));
 // Routes
 const main_route_1 = __importDefault(require("./routes/v1/main.route"));
 // Middleware
-const whitelist = ["https://activityhubrs.vercel.app", "activityhubrs.vercel.app"];
+const whitelist = [
+    "https://activityhubrs.vercel.app",
+    "activityhubrs.vercel.app",
+];
 const corsOptions = {
     origin: (origin, callback) => {
         if (whitelist.indexOf(origin) !== -1) {
@@ -33,7 +36,7 @@ app.use(body_parser_1.default.json({ limit: "200mb" }));
 // app.use(express.urlencoded({limit: '200mb', extended: true}));
 app.set("json spaces", 2);
 // main endpoints
-app.use("/api/v1", cors(corsOptions), viewCount_1.default, main_route_1.default);
+app.use("/api/v1", cors(), viewCount_1.default, main_route_1.default);
 app.all("*", (req, res) => {
     res
         .status(404)

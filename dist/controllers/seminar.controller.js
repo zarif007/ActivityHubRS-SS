@@ -27,6 +27,23 @@ const getSeminar = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
+const getSeminarById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { seminarId } = req.params;
+        const seminar = yield (0, seminar_service_1.getSeminarRegistrationService)(seminarId);
+        res.status(200).json({
+            success: true,
+            data: seminar,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in getting seminars",
+        });
+    }
+});
 const addSeminar = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const seminar = req.body;
@@ -71,4 +88,4 @@ const registerStudentToSeminar = (req, res, next) => __awaiter(void 0, void 0, v
         });
     }
 });
-exports.default = { getSeminar, addSeminar, registerStudentToSeminar };
+exports.default = { getSeminar, addSeminar, registerStudentToSeminar, getSeminarById };

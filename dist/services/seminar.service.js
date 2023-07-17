@@ -9,13 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerStudentToSeminarService = exports.addSeminarService = exports.getSeminarService = void 0;
+exports.getSeminarRegistrationService = exports.registerStudentToSeminarService = exports.addSeminarService = exports.getSeminarService = void 0;
 const seminar_model_1 = require("../models/seminar.model");
+const student_model_1 = require("../models/student.model");
 const getSeminarService = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const seminars = yield seminar_model_1.SeminarModel.find(query);
     return seminars;
 });
 exports.getSeminarService = getSeminarService;
+const getSeminarRegistrationService = (seminerId) => __awaiter(void 0, void 0, void 0, function* () {
+    const seminars = yield seminar_model_1.SeminarModel.findById(seminerId, "registeredStudents name slot");
+    const students = yield student_model_1.StudentModel.find({ _id: { $in: seminars === null || seminars === void 0 ? void 0 : seminars.registeredStudents } }, 'registeredStudents name email gender phoneNumber engSection');
+    if (!seminars)
+        throw new Error("Seminar not found");
+    return { name: seminars.name, slot: seminars.slot, registeredStudents: students };
+});
+exports.getSeminarRegistrationService = getSeminarRegistrationService;
 const addSeminarService = (seminar) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield seminar_model_1.SeminarModel.create(seminar);
     return result;

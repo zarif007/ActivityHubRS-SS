@@ -26,10 +26,20 @@ const updateStudentById = async (id: string,updateData:any) => {
   return result;
 };
 
+const updateManyStudentsService = async (students:any,updateQuery:object) => {
+  const result = await StudentModel.updateMany(
+    { studentId: { $in: students } },
+    { $set: updateQuery }
+  );
+  return result;
+};
+
+
 export {
   getStudentsService,
   getStudentsByEmailService,
   getStudentByIdService,
   addStudentsService,
-  updateStudentById
+  updateStudentById,
+  updateManyStudentsService
 };

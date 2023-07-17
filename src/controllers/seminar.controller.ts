@@ -1,5 +1,6 @@
 import {
   addSeminarService,
+  getSeminarRegistrationService,
   getSeminarService,
   registerStudentToSeminarService,
 } from "../services/seminar.service";
@@ -9,6 +10,22 @@ const getSeminar = async (req: Request, res: Response) => {
   try {
     const { _id } = req.query;
     const seminar = await getSeminarService(_id ? { _id } : {});
+    res.status(200).json({
+      success: true,
+      data: seminar,
+    });
+  } catch (err: any) {
+    res.status(400).json({
+      success: false,
+      err: err.message,
+      message: "Error in getting seminars",
+    });
+  }
+};
+const getSeminarById  = async (req: Request, res: Response) => {
+  try {
+    const { seminarId } = req.params;
+    const seminar = await getSeminarRegistrationService(seminarId);
     res.status(200).json({
       success: true,
       data: seminar,
@@ -75,4 +92,4 @@ const registerStudentToSeminar = async (
   }
 };
 
-export default { getSeminar, addSeminar, registerStudentToSeminar };
+export default { getSeminar, addSeminar, registerStudentToSeminar, getSeminarById };

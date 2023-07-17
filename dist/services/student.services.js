@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateStudentById = exports.addStudentsService = exports.getStudentByIdService = exports.getStudentsByEmailService = exports.getStudentsService = void 0;
+exports.updateManyStudentsService = exports.updateStudentById = exports.addStudentsService = exports.getStudentByIdService = exports.getStudentsByEmailService = exports.getStudentsService = void 0;
 const student_model_1 = require("../models/student.model");
 const getStudentsService = () => __awaiter(void 0, void 0, void 0, function* () {
     const students = yield student_model_1.StudentModel.find({});
@@ -38,3 +38,8 @@ const updateStudentById = (id, updateData) => __awaiter(void 0, void 0, void 0, 
     return result;
 });
 exports.updateStudentById = updateStudentById;
+const updateManyStudentsService = (students, updateQuery) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield student_model_1.StudentModel.updateMany({ studentId: { $in: students } }, { $set: updateQuery });
+    return result;
+});
+exports.updateManyStudentsService = updateManyStudentsService;

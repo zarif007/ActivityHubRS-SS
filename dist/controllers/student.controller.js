@@ -69,8 +69,26 @@ const addStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         });
     }
 });
+const updateStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { students, updatedQuery } = req.body;
+        const result = yield (0, student_services_1.updateManyStudentsService)(students, updatedQuery);
+        res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in Updating student",
+        });
+    }
+});
 exports.default = {
     getStudents,
     getStudentsByEmail,
     addStudents,
+    updateStudents
 };

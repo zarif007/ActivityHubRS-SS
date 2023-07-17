@@ -9,6 +9,7 @@ const student_controller_1 = __importDefault(require("../../controllers/student.
 router
     .route("/")
     .get(student_controller_1.default.getStudents)
-    .post(student_controller_1.default.addStudents);
+    .post(student_controller_1.default.addStudents)
+    .put(student_controller_1.default.updateStudents);
 router.route("/byEmail/:email").get(student_controller_1.default.getStudentsByEmail);
 exports.default = router;

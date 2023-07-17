@@ -12,5 +12,6 @@ router
     .post(seminar_controller_1.default.addSeminar);
 router
     .route("/register/:seminarId")
+    .get(seminar_controller_1.default.getSeminarById)
     .post(seminar_controller_1.default.registerStudentToSeminar);
 exports.default = router;

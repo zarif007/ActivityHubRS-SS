@@ -7,8 +7,10 @@ router
   .route("/")
   .get(seminarController.getSeminar)
   .post(seminarController.addSeminar);
+
 router
   .route("/register/:seminarId")
+  .get(seminarController.getSeminarById)
   .post(seminarController.registerStudentToSeminar);
 
 export default router;

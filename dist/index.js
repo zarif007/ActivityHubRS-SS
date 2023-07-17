@@ -35,6 +35,6 @@ const dConnect_1 = require("./utils/dConnect");
 (0, dConnect_1.connectToDatabase)();
 // Server Starter
 app_1.default.listen(PORT, () => {
-    // console.log(`Server started @ port ${PORT}`);
-    console.log(`Process ID ${process.pid}`);
+    console.log(`Server started @ port ${PORT}`);
+    // console.log(`Process ID ${process.pid}`);
 });
