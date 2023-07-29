@@ -12,6 +12,7 @@ import SmsRoute from "./sms.route";
 import SeminarRoute from "./seminar.route";
 import WorkshopRoute from "./workshop.route";
 import AdminDashboardRoute from "./adminDashboard.route";
+import DownloadRoute from "./download.route";
 
 import { rateLimiter } from "../../middleware/rateLimiter";
 
@@ -59,5 +60,6 @@ router.use("/seminar", SeminarRoute);
 router.use("/workshop", WorkshopRoute);
 
 router.use("/admin", AdminDashboardRoute);
+router.use("/download", DownloadRoute);
 
 export default router;

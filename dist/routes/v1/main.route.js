@@ -15,6 +15,7 @@ const sms_route_1 = __importDefault(require("./sms.route"));
 const seminar_route_1 = __importDefault(require("./seminar.route"));
 const workshop_route_1 = __importDefault(require("./workshop.route"));
 const adminDashboard_route_1 = __importDefault(require("./adminDashboard.route"));
+const download_route_1 = __importDefault(require("./download.route"));
 const rateLimiter_1 = require("../../middleware/rateLimiter");
 /*
     @route      ALL /api/v1/
@@ -52,4 +53,5 @@ router.use("/sms", sms_route_1.default);
 router.use("/seminar", seminar_route_1.default);
 router.use("/workshop", workshop_route_1.default);
 router.use("/admin", adminDashboard_route_1.default);
+router.use("/download", download_route_1.default);
 exports.default = router;

@@ -29,12 +29,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const app_1 = __importDefault(require("./app"));
+const node_cron_1 = __importDefault(require("node-cron"));
 const PORT = process.env.MAC_PORT || process.env.PORT || 5000;
 // Database connection
 const dConnect_1 = require("./utils/dConnect");
+const utility_1 = require("./utils/utility");
 (0, dConnect_1.connectToDatabase)();
+(0, utility_1.backupDatabase)();
+// Backup Database
+node_cron_1.default.schedule('0 1 * * *', utility_1.backupDatabase, {
+    timezone: "Asia/Dhaka"
+});
 // Server Starter
 app_1.default.listen(PORT, () => {
     console.log(`Server started @ port ${PORT}`);
-    // console.log(`Process ID ${process.pid}`);
 });
