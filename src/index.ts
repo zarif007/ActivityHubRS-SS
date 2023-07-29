@@ -12,11 +12,13 @@ const PORT = process.env.MAC_PORT || process.env.PORT || 5000;
 import { connectToDatabase } from './utils/dConnect';
 import { backupDatabase } from './utils/utility';
 connectToDatabase();
-backupDatabase()
-// Backup Database
-cron.schedule('0 1 * * *', backupDatabase,{
-  timezone: "Asia/Dhaka"
-});
+
+
+// backupDatabase()
+// // Backup Database
+// cron.schedule('0 1 * * *', backupDatabase,{
+//   timezone: "Asia/Dhaka"
+// });
 
 
 
