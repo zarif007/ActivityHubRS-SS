@@ -139,10 +139,14 @@ const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
                 });
                 return;
             }
-            /*
-                Try/Catch for checking if this email enrolled to an activity or not
-                It saves one extra API call
-              */
+            const isAlreadyEnrolled = yield (0, activityRegistration_service_1.getRegistrationByStudentIdService)(studentId);
+            if (isAlreadyEnrolled) {
+                res.status(400).json({
+                    success: false,
+                    message: "User with this email already enrolled to an activity",
+                });
+                return;
+            }
             try {
                 // Inserting registration to DB
                 const registration = yield (0, activityRegistration_service_1.addRegistrationService)({ activityId, studentId });
@@ -161,7 +165,7 @@ const addRegistration = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
                 res.status(400).json({
                     success: false,
                     err: err.message,
-                    message: "User with this email already enrolled to an activity",
+                    message: "Something went wrong! Please try again",
                 });
             }
         }

@@ -175,7 +175,7 @@ const addRegistration = async (
       }
 
       const isAlreadyEnrolled = await getRegistrationByStudentIdService(studentId);
-      if(isAlreadyEnrolled) {
+      if(isAlreadyEnrolled.length > 0) {
         res.status(400).json({
           success: false,
           message: "User with this email already enrolled to an activity",
