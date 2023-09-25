@@ -36,7 +36,7 @@ app.use(bodyParser.json({ limit: "200mb" }));
 app.set("json spaces", 2);
 
 // main endpoints
-app.use("/api/v1", cors(), viewCount, mainRoute);
+app.use("/api/v1", cors(corsOptions), viewCount, mainRoute);
 app.all("*", (req, res) => {
   res
     .status(404)
