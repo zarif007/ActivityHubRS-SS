@@ -174,10 +174,14 @@ const addRegistration = async (
         return;
       }
 
-      /*
-          Try/Catch for checking if this email enrolled to an activity or not
-          It saves one extra API call
-        */
+      const isAlreadyEnrolled = await getRegistrationByStudentIdService(studentId);
+      if(isAlreadyEnrolled) {
+        res.status(400).json({
+          success: false,
+          message: "User with this email already enrolled to an activity",
+        });
+        return
+      }
       try {
         // Inserting registration to DB
         const registration = await addRegistrationService({ activityId, studentId });
@@ -200,7 +204,7 @@ const addRegistration = async (
         res.status(400).json({
           success: false,
           err: err.message,
-          message: "User with this email already enrolled to an activity",
+          message: "Something went wrong! Please try again",
         });
       }
     } else {
